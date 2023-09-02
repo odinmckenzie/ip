@@ -59,4 +59,9 @@ class IPv4MaskTest extends TestCase
         ];
     }
 
+    public function testSubnetMask()
+    {
+        $mask = new IPv4Mask(24);
+        $this->assertEquals('255.255.255.0', $mask->subnetMask());
+    }
 }
