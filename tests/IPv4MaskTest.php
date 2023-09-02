@@ -82,4 +82,13 @@ class IPv4MaskTest extends TestCase
         $mask = new IPv4Mask('/24');
         $this->assertEquals(254, $mask->networkSize());
     }
+
+    public function testFromNetworkSize()
+    {
+        $mask = IPv4Mask::fromNetworkSize(50);
+        $this->assertEquals(26, $mask->prefix());
+
+        $mask = IPv4Mask::fromNetworkSize(400);
+        $this->assertEquals(23, $mask->prefix());
+    }
 }
