@@ -25,12 +25,12 @@ class IPv4Address
         $this->ip = ip2long($ip);
     }
 
-    public function address()
+    public function address(): string
     {
         return long2ip($this->ip);
     }
 
-    public function version()
+    public function version(): int
     {
         return 4;
     }
