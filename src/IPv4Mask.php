@@ -59,15 +59,19 @@ class IPv4Mask
 
     public function subnetMask(): string
     {
-        return long2ip(-1 << (32 - $this->prefix));
+        $subnet_mask_long = -1 << (32 - $this->prefix);
+
+        return long2ip($subnet_mask_long);
     }
 
     public function hostMask(): string
     {
-        return long2ip(~(-1 << (32 - $this->prefix)));
+        $host_mask_long = ~(-1 << (32 - $this->prefix));
+
+        return long2ip($host_mask_long);
     }
 
-    public function networkSize() 
+    public function networkSize(): int
     {
         $num_ips = pow(2, (32 - $this->prefix())) - 2;
 
