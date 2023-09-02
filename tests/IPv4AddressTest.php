@@ -77,4 +77,30 @@ class IPv4AddressTest extends TestCase
         $ip = new IPv4Address('0.0.0.0');
         $ip->add(-2);
     }
+
+    public function testIPv4AddressSubtract()
+    {
+        $ip = new IPv4Address('192.168.1.5');
+        $next_ip = $ip->subtract(1);
+
+        $this->assertEquals('192.168.1.4', $next_ip->address());
+    }
+
+    public function testIPv4AddressSubtractLowerLimit()
+    {
+        $this->expectException(InvalidAddressException::class);
+        $this->expectExceptionMessage("'0.0.0.0' - 2 is less than '0.0.0.0'");
+
+        $ip = new IPv4Address('0.0.0.0');
+        $ip->subtract(2);
+    }
+
+    public function testIPv4AddressSubtractUpperLimit()
+    {
+        $this->expectException(InvalidAddressException::class);
+        $this->expectExceptionMessage("'255.255.255.250' - -6 is greater than '255.255.255.255'");
+
+        $ip = new IPv4Address('255.255.255.250');
+        $ip->subtract(-6);
+    }
 }
