@@ -6,14 +6,6 @@ class InvalidAddressException extends \Exception
 {
 }
 
-class InvalidNetworkException extends \Exception
-{
-}
-
-class InvalidNetmaskException extends \Exception
-{
-}
-
 class IPv4Address
 {
     protected $ip;
