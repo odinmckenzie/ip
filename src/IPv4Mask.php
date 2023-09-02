@@ -56,4 +56,9 @@ class IPv4Mask
     {
         return $this->prefix;
     }
+
+    public function subnetMask(): string
+    {
+        return long2ip(-1 << (32 - $this->prefix));
+    }
 }
