@@ -14,7 +14,7 @@ class IPv4Mask
     {
         $mask_val = $mask;
 
-        if (is_string($mask_val) && substr_count($mask_val, '/') > 0) 
+        if (is_string($mask_val) && substr_count($mask_val, '/') > 0)
             $mask_val = str_replace('/', ' ', $mask_val);
 
         if (is_string($mask_val))
@@ -76,5 +76,12 @@ class IPv4Mask
         $num_ips = pow(2, (32 - $this->prefix())) - 2;
 
         return $num_ips;
+    }
+
+    public static function fromNetworkSize(int $size): self
+    {
+        $prefix = 32 - (int) ceil(log($size + 2, 2));
+
+        return new self($prefix);
     }
 }
