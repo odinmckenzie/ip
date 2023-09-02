@@ -103,4 +103,10 @@ class IPv4AddressTest extends TestCase
         $ip = new IPv4Address('255.255.255.250');
         $ip->subtract(-6);
     }
+
+    public function testIsUnspecifiedAddress()
+    {
+        $ip = new IPv4Address('0.0.0.0');
+        $this->assertTrue($ip->isUnspecified());
+    }
 }
