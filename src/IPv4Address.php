@@ -24,9 +24,9 @@ class IPv4Address
 
         if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             if (strpos($ip, '/') !== false) {
-                throw new InvalidAddressException("Unexpected '/' found in '$ip'", 1);
+                throw new InvalidAddressException("Unexpected '/' found in '$ip'");
             } else {
-                throw new InvalidAddressException("'$ip' is in an unexpected format", 0);
+                throw new InvalidAddressException("'$ip' is in an unexpected format");
             }
         }
 
@@ -42,4 +42,22 @@ class IPv4Address
     {
         return 4;
     }
+
+    public function add(int $increment): IPv4Address
+    {
+        $next_ip_long = $this->ip + $increment;
+        
+        $ip = $this->address();
+
+        if ($next_ip_long > 4294967295) {
+            throw new InvalidAddressException("'$ip' + $increment is greater than '255.255.255.255'");
+        } elseif ($next_ip_long < 0) {
+            throw new InvalidAddressException("'$ip' + $increment is less than '0.0.0.0'");
+        }
+
+        $next_ip = long2ip($next_ip_long);
+
+        return new IPv4Address($next_ip);
+    }
+
 }
