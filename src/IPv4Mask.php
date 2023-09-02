@@ -61,4 +61,9 @@ class IPv4Mask
     {
         return long2ip(-1 << (32 - $this->prefix));
     }
+
+    public function hostMask(): string
+    {
+        return long2ip(~(-1 << (32 - $this->prefix)));
+    }
 }
