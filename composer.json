@@ -1,0 +1,27 @@
+{
+    "name": "odin/ip",
+    "version": "1.0.0",
+    "description": "An IPv4/IPv6 manipulation library in PHP.",
+    "keywords": ["ip", "ipv6", "ipv4", "network", "subnet", "subnetting", "cidr", "supernetting"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Odin McKenzie"
+        }
+      ],
+    "autoload": {
+        "psr-4": {
+            "Odin\\IP\\": "src/"
+        }
+    },
+    "scripts": {
+        "tests": "vendor/bin/phpunit"
+    },
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
