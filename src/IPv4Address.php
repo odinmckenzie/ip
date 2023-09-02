@@ -76,4 +76,9 @@ class IPv4Address
 
         return new IPv4Address($next_ip);
     }
+
+    public function isUnspecified(): bool
+    {
+        return $this->ip == 0;
+    }
 }
