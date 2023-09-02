@@ -50,4 +50,12 @@ class IPv4AddressTest extends TestCase
         $this->assertEquals(0, new IPv4Address('192.168.1.1') <=> new IPv4Address('192.168.1.1'));
         $this->assertEquals(1, new IPv4Address('192.168.1.2') <=> new IPv4Address('192.168.1.1'));
     }
+
+    public function testIPv4AddressAdd()
+    {
+        $ip = new IPv4Address('192.168.1.1');
+        $next_ip = $ip->add(1);
+
+        $this->assertEquals('192.168.1.2', $next_ip->address());
+    }
 }
