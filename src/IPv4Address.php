@@ -20,11 +20,13 @@ class IPv4Address
 
     public function __construct($ip)
     {
+        $ip = trim($ip);
+
         if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             if (strpos($ip, '/') !== false) {
-                throw new InvalidAddressException("Unexpected '/' found in $ip.");
+                throw new InvalidAddressException("Unexpected '/' found in '$ip'", 1);
             } else {
-                throw new InvalidAddressException("$ip is in an unexpected format.");
+                throw new InvalidAddressException("'$ip' is in an unexpected format", 0);
             }
         }
 
