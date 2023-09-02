@@ -46,7 +46,7 @@ class IPv4Address
     public function add(int $increment): IPv4Address
     {
         $next_ip_long = $this->ip + $increment;
-        
+
         $ip = $this->address();
 
         if ($next_ip_long > 4294967295) {
@@ -60,4 +60,20 @@ class IPv4Address
         return new IPv4Address($next_ip);
     }
 
+    public function subtract(int $increment): IPv4Address
+    {
+        $next_ip_long = $this->ip - $increment;
+
+        $ip = $this->address();
+
+        if ($next_ip_long < 0) {
+            throw new InvalidAddressException("'$ip' - $increment is less than '0.0.0.0'");
+        } elseif ($next_ip_long > 4294967295) {
+            throw new InvalidAddressException("'$ip' - $increment is greater than '255.255.255.255'");
+        }
+
+        $next_ip = long2ip($next_ip_long);
+
+        return new IPv4Address($next_ip);
+    }
 }
