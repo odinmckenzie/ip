@@ -66,4 +66,11 @@ class IPv4Mask
     {
         return long2ip(~(-1 << (32 - $this->prefix)));
     }
+
+    public function networkSize() 
+    {
+        $num_ips = pow(2, (32 - $this->prefix())) - 2;
+
+        return $num_ips;
+    }
 }
