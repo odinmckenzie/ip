@@ -37,4 +37,9 @@ class IPv4Address
     {
         return long2ip($this->ip);
     }
+
+    public function version()
+    {
+        return 4;
+    }
 }
