@@ -160,16 +160,27 @@ class IPv4MaskTest extends TestCase
         ];
     }
 
-    public function testNetworkSize()
+    /**
+     * @dataProvider providerForTestNetworkSize
+     */
+    public function testNetworkSize($prefix, $expected)
     {
-        $mask = new IPv4Mask('/8');
-        $this->assertEquals(16777214, $mask->networkSize());
+        $mask = new IPv4Mask($prefix);
+        $this->assertEquals($expected, $mask->networkSize());
+    }
 
-        $mask = new IPv4Mask('/16');
-        $this->assertEquals(65534, $mask->networkSize());
-
-        $mask = new IPv4Mask('/24');
-        $this->assertEquals(254, $mask->networkSize());
+    public function providerForTestNetworkSize()
+    {
+        return [
+            ['/0', 4294967294],
+            ['/1', 2147483646],
+            ['/8', 16777214],
+            ['/16', 65534],
+            ['/24', 254],
+            ['/30', 2],
+            ['/31', 0],
+            ['/32', 1]
+        ];
     }
 
     public function testFromNetworkSize()
