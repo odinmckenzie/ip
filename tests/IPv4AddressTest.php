@@ -125,4 +125,25 @@ class IPv4AddressTest extends TestCase
         $ip = new IPv4Address('0.0.0.0');
         $this->assertTrue($ip->isUnspecified());
     }
+
+    /**
+     * @dataProvider toBinaryProvider
+     */
+    public function testToBinary($address, $expected_binary)
+    {
+        $ip = new IPv4Address($address);
+        $this->assertEquals($expected_binary, $ip->toBinary());
+    }
+
+    public function toBinaryProvider()
+    {
+        return [
+            ['10.1.1.1', '00001010000000010000000100000001'],
+            ['192.168.0.1', '11000000101010000000000000000001'],
+            ['255.255.255.0', '11111111111111111111111100000000'],
+            ['0.0.0.0', '00000000000000000000000000000000'],
+            ['127.0.0.1', '01111111000000000000000000000001'],
+            ['255.255.255.255', '11111111111111111111111111111111'],
+        ];
+    }
 }
