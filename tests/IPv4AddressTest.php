@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Odin\IP\IPv4Address;
+use Odin\IP\IPv4Mask;
 use Odin\IP\InvalidAddressException;
 
 class IPv4AddressTest extends TestCase
@@ -144,6 +145,24 @@ class IPv4AddressTest extends TestCase
             ['0.0.0.0', '00000000000000000000000000000000'],
             ['127.0.0.1', '01111111000000000000000000000001'],
             ['255.255.255.255', '11111111111111111111111111111111'],
+        ];
+    }
+
+    /**
+     * @dataProvider toFormattedBinaryProvider
+     */
+    public function testToFormattedBinary($address, $netmask, $gap, $expected_binary)
+    {
+        $ip = new IPv4Address($address);
+        $this->assertEquals($expected_binary, $ip->toFormattedBinary($netmask, $gap));
+    }
+
+    public function toFormattedBinaryProvider()
+    {
+        return [
+            ['10.1.1.1', '/8', ' ', '00001010. 00000001.00000001.00000001'],
+            ['192.168.0.1', 24, '', '11000000.10101000.00000000.00000001'],
+            ['255.255.255.0', new IPv4Mask(24), ' ', '11111111.11111111.11111111. 00000000'],
         ];
     }
 }
