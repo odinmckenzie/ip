@@ -37,6 +37,8 @@ class IPv4Mask
 
             if (preg_match('/^1+0*$/', $binary_str)) {
                 $this->prefix = substr_count($binary_str, '1');
+            } elseif ($binary_str == '00000000000000000000000000000000') {
+                $this->prefix = 0;
             } elseif (preg_match('/^0+1*$/', $binary_str)) {
                 $this->prefix = substr_count($binary_str, '0');
             } else {
@@ -59,9 +61,13 @@ class IPv4Mask
 
     public function subnetMask(): string
     {
-        $subnet_mask_long = -1 << (32 - $this->prefix);
+        if ($this->prefix == 0) {
+            return '0.0.0.0';
+        } else {
+            $subnet_mask_long = -1 << (32 - $this->prefix);
 
-        return long2ip($subnet_mask_long);
+            return long2ip($subnet_mask_long);
+        }
     }
 
     public function hostMask(): string
