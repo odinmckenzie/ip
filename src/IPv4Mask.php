@@ -108,12 +108,12 @@ class IPv4Mask
 
     public static function fromClassDefault(string $class): IPv4Mask
     {
-        $accepted_classes = ['A', 'a', 'B', 'C', 'c'];
+        $accepted_classes = ['A', 'B', 'C'];
         $class = strtoupper($class);
 
-        if (in_array($class, $accepted_classes) === false) {
-            throw new \InvalidArgumentException("'$class' must be either 'A', 'B', or 'C'. 
-                The other classes 'D' and 'E' do not have default netmasks.");
+        if (!in_array($class, $accepted_classes)) {
+            throw new \InvalidArgumentException("'$class' must be either 'A', 'B', or 'C'. "
+                . "The other classes 'D' and 'E' do not have default netmasks.");
         }
 
         switch ($class) {
