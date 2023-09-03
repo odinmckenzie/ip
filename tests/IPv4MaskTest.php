@@ -258,4 +258,24 @@ class IPv4MaskTest extends TestCase
         $c = IPv4Mask::fromClassDefault('C');
         $this->assertEquals(new IPv4Mask(24), $c);
     }
+
+    /**
+     * @dataProvider invalidClassProvider
+     */
+    public function testInvalidFromClassDefaultInput($class, $expected_message)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($expected_message);
+        IPv4Mask::fromClassDefault($class);
+    }
+
+    public function invalidClassProvider()
+    {
+        return [
+            // class value, expected error message
+            ['D', "'D' must be either 'A', 'B', or 'C'. The other classes 'D' and 'E' do not have default netmasks."],
+            ['E', "'E' must be either 'A', 'B', or 'C'. The other classes 'D' and 'E' do not have default netmasks."],
+            ['F', "'F' must be either 'A', 'B', or 'C'. The other classes 'D' and 'E' do not have default netmasks."],
+        ];
+    }
 }
