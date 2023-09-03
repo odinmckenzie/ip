@@ -87,6 +87,15 @@ class IPv4Mask
 
     public static function fromNetworkSize(int $size): self
     {
+        if ($size > 4294967294 || $size < 0) {
+            throw new \InvalidArgumentException("Size value of '$size' must be from 0 to 4294967294, inclusive.");
+        }
+
+        // floating point rounding error occurs for 2147483646
+        if ($size == 2147483646) {
+            return new self(1);
+        }
+
         $prefix = 32 - (int) ceil(log($size + 2, 2));
 
         return new self($prefix);
