@@ -70,6 +70,19 @@ class IPv4MaskTest extends TestCase
         ];
     }
 
+    public function testComparisons()
+    {
+        $this->assertTrue(new IPv4Mask('255.255.255.0') == new IPv4Mask('255.255.255.0'));
+        $this->assertTrue(new IPv4Mask('255.255.255.0') != new IPv4Mask('255.255.0.0'));
+
+        $this->assertTrue(new IPv4Mask('255.255.255.0') > new IPv4Mask('255.255.0.0'));
+        $this->assertTrue(new IPv4Mask('255.255.0.0') < new IPv4Mask('255.255.255.0'));
+
+        $this->assertEquals(-1, new IPv4Mask('255.255.0.0') <=> new IPv4Mask('255.255.255.0'));
+        $this->assertEquals(0, new IPv4Mask('255.255.255.0') <=> new IPv4Mask('255.255.255.0'));
+        $this->assertEquals(1, new IPv4Mask('255.255.255.0') <=> new IPv4Mask('255.255.0.0'));
+    }
+
     /**
      * @dataProvider providerForTestSubnetMask
      */
