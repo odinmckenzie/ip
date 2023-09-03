@@ -9,15 +9,16 @@ class IPv4MaskTest extends TestCase
     /**
      * @dataProvider maskProvider
      */
-    public function testSimpleMaskCreate($input, $expected)
+    public function testSimpleMaskCreate($mask, $expectedPrefix)
     {
-        $mask = new IPv4Mask($input);
-        $this->assertEquals($expected, $mask->prefix());
+        $mask = new IPv4Mask($mask);
+        $this->assertEquals($expectedPrefix, $mask->prefix());
     }
 
     public function maskProvider()
     {
         return [
+            // mask value, expected prefix
             [24, 24],
             [0, 0],
             [32, 32],
@@ -43,16 +44,17 @@ class IPv4MaskTest extends TestCase
     /**
      * @dataProvider invalidMaskProvider
      */
-    public function testInvalidIPv4MaskInput($input, $expected_message)
+    public function testInvalidIPv4MaskInput($mask, $expected_message)
     {
         $this->expectException(InvalidNetmaskException::class);
         $this->expectExceptionMessage($expected_message);
-        new IPv4Mask($input);
+        new IPv4Mask($mask);
     }
 
     public function invalidMaskProvider()
     {
         return [
+            // mask value, expected error message
             [-1, "'-1' must be an integer between 0 and 32, inclusive."],
             [33, "'33' must be an integer between 0 and 32, inclusive."],
             [24.0, "'24.0' must be either a prefix length from 0 to 32 or a valid subnet mask or a valid host mask."],
@@ -67,15 +69,16 @@ class IPv4MaskTest extends TestCase
     /**
      * @dataProvider providerForTestSubnetMask
      */
-    public function testSubnetMask($prefix, $expected)
+    public function testSubnetMask($prefix, $expectedSubnetMask)
     {
         $mask = new IPv4Mask($prefix);
-        $this->assertEquals($expected, $mask->subnetMask());
+        $this->assertEquals($expectedSubnetMask, $mask->subnetMask());
     }
 
     public function providerForTestSubnetMask()
     {
         return [
+            // prefix, expected subnet mask
             [0, '0.0.0.0'],
             [1, '128.0.0.0'],
             [2, '192.0.0.0'],
@@ -115,15 +118,16 @@ class IPv4MaskTest extends TestCase
     /**
      * @dataProvider providerForTestHostMask
      */
-    public function testHostMask($prefix, $expected)
+    public function testHostMask($prefix, $expectedHostMask)
     {
         $mask = new IPv4Mask($prefix);
-        $this->assertEquals($expected, $mask->hostMask());
+        $this->assertEquals($expectedHostMask, $mask->hostMask());
     }
 
     public function providerForTestHostMask()
     {
         return [
+            // prefix, expected host mask
             [0, '255.255.255.255'],
             [1, '127.255.255.255'],
             [2, '63.255.255.255'],
@@ -163,15 +167,16 @@ class IPv4MaskTest extends TestCase
     /**
      * @dataProvider providerForTestNetworkSize
      */
-    public function testNetworkSize($prefix, $expected)
+    public function testNetworkSize($prefix, $expectedSize)
     {
         $mask = new IPv4Mask($prefix);
-        $this->assertEquals($expected, $mask->networkSize());
+        $this->assertEquals($expectedSize, $mask->networkSize());
     }
 
     public function providerForTestNetworkSize()
     {
         return [
+            // prefix, expected size
             ['/0', 4294967294],
             ['/1', 2147483646],
             ['/8', 16777214],
@@ -183,12 +188,37 @@ class IPv4MaskTest extends TestCase
         ];
     }
 
-    public function testFromNetworkSize()
+    /**
+     * @dataProvider networkSizeProvider
+     */
+    public function testFromNetworkSize($networkSize, $expectedPrefix)
     {
-        $mask = IPv4Mask::fromNetworkSize(50);
-        $this->assertEquals(26, $mask->prefix());
+        $mask = IPv4Mask::fromNetworkSize($networkSize);
+        $this->assertEquals($expectedPrefix, $mask->prefix());
+    }
 
-        $mask = IPv4Mask::fromNetworkSize(400);
-        $this->assertEquals(23, $mask->prefix());
+    public function networkSizeProvider()
+    {
+        return [
+            // network size, expected prefix
+            [0, 31],
+            [1, 30],
+            [2, 30],
+            [50, 26],
+            [400, 23],
+            [2147483645, 1],
+            [2147483646, 1], // Test for rounding error
+            [2147483647, 0],
+            [4294967293, 0],
+            [4294967294, 0],
+        ];
+    }
+
+    public function testInvalidFromNetworkSizeInput()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Size value of '4294967295' must be from 0 to 4294967294, inclusive.");
+
+        IPv4Mask::fromNetworkSize(4294967295);
     }
 }
