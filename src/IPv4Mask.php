@@ -90,6 +90,14 @@ class IPv4Mask
         return $num_ips;
     }
 
+    
+    public function toBinary(): string 
+    {
+        $binary = Address::toBinary($this);
+
+        return $binary;
+    }
+
     public static function fromNetworkSize(int $size): self
     {
         if ($size > 4294967294 || $size < 0) {
