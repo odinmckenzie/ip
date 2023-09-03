@@ -106,40 +106,8 @@ class IPv4Address
 
     public function toFormattedBinary($netmask, string $gap = ' '): string
     {
-        if (!isset($gap)) {
-            $gap = '';
-        }
+        $binary = Address::toFormattedBinary($this, $netmask, $gap);
 
-        if ($netmask instanceof IPv4Mask) {
-            $mask = $netmask;
-        } else {
-            $mask = new IPv4Mask($netmask);
-        }
-
-        $binary = $this->toBinary();
-
-        $prefix = $mask->prefix();
-
-        $binary_with_gap = substr($binary, 0, $prefix) . $gap . substr($binary, $prefix);
-
-        // add dots every 8 bits
-        $result = '';
-        $count = 0;
-        for ($i = 0; $i < strlen($binary_with_gap); $i++) {
-            if ($count == 8) {
-                $result .= '.';
-                $count = 0;
-            }
-
-            $result .= $binary_with_gap[$i];
-
-            if ($binary_with_gap[$i] == ' ') {
-                continue;
-            } else {
-                $count++;
-            }
-        }
-
-        return $result;
+        return $binary;
     }
 }
