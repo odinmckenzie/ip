@@ -19,15 +19,20 @@ class IPv4MaskTest extends TestCase
     {
         return [
             [24, 24],
+            [0, 0],
+            [32, 32],
             ['24', 24],
-            ['24 ', 24],
+            ['/24', 24],
 
             // Test with string containing spaces and a slash
+            ['24 ', 24],
             [' / 24 ', 24],
 
             // Test with subnet masks
             ['255.255.255.0', 24],
             ['255.255.255.192', 26],
+            ['255.255.255.255', 32],
+            ['0.0.0.0', 0],
 
             // Test with host masks
             ['0.0.0.255', 24],
@@ -63,6 +68,12 @@ class IPv4MaskTest extends TestCase
     {
         $mask = new IPv4Mask(24);
         $this->assertEquals('255.255.255.0', $mask->subnetMask());
+
+        $mask = new IPv4Mask(0);
+        $this->assertEquals('0.0.0.0', $mask->subnetMask());
+
+        $mask = new IPv4Mask(32);
+        $this->assertEquals('255.255.255.255', $mask->subnetMask());
     }
 
     public function testHostMask()
