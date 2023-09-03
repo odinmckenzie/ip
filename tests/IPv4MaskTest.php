@@ -221,4 +221,12 @@ class IPv4MaskTest extends TestCase
 
         IPv4Mask::fromNetworkSize(4294967295);
     }
+
+    public function testToString()
+    {
+        $mask = new IPv4Mask(24);
+        $mask_str = (string) $mask;
+        
+        $this->assertEquals('24', $mask_str);
+    }
 }
