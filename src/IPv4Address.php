@@ -49,7 +49,7 @@ class IPv4Address
         }
 
         $host_mask_long = ip2long($netmask->hostMask());
-        $host_id_long = $this->ip & $host_mask_long;
+        $host_id_long = $this->ip& $host_mask_long;
 
         $host_id = long2ip($host_id_long);
 
@@ -93,5 +93,15 @@ class IPv4Address
     public function isUnspecified(): bool
     {
         return $this->ip == 0;
+    }
+
+    public function toBinary(): string
+    {
+        $binary = decbin($this->ip);
+
+        // make sure the binary IP is 32 bits long by adding leading zeroes
+        $binary_str = str_pad($binary, 32, "0", STR_PAD_LEFT);
+
+        return $binary_str;
     }
 }
