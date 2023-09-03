@@ -278,4 +278,10 @@ class IPv4MaskTest extends TestCase
             ['F', "'F' must be either 'A', 'B', or 'C'. The other classes 'D' and 'E' do not have default netmasks."],
         ];
     }
+
+    public function testToBinary()
+    {
+        $netmask = new IPv4Mask(24);
+        $this->assertEquals('11111111111111111111111100000000', $netmask->toBinary());
+    }
 }
