@@ -40,6 +40,22 @@ class IPv4Address
         return 4;
     }
 
+    public function hostId($mask): string
+    {
+        if ($mask instanceof IPv4Mask) {
+            $netmask = $mask;
+        } else {
+            $netmask = new IPv4Mask($mask);
+        }
+
+        $host_mask_long = ip2long($netmask->hostMask());
+        $host_id_long = $this->ip & $host_mask_long;
+
+        $host_id = long2ip($host_id_long);
+
+        return $host_id;
+    }
+
     public function add(int $increment): IPv4Address
     {
         $next_ip_long = $this->ip + $increment;
