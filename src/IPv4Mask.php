@@ -59,6 +59,11 @@ class IPv4Mask
         return $this->prefix;
     }
 
+    public function __toString(): string
+    {
+        return (string) $this->prefix;
+    }
+
     public function subnetMask(): string
     {
         if ($this->prefix == 0) {
