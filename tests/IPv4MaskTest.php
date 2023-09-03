@@ -19,15 +19,17 @@ class IPv4MaskTest extends TestCase
     {
         return [
             // mask value, expected prefix
-            [24, 24],
             [0, 0],
             [32, 32],
+            [24, 24],
             ['24', 24],
             ['/24', 24],
 
             // Test with string containing spaces and a slash
             ['24 ', 24],
             [' / 24 ', 24],
+            ['255.255.255.0 ', 24],
+            ['0.0.0.255 ', 24],
 
             // Test with subnet masks
             ['255.255.255.0', 24],
@@ -59,6 +61,8 @@ class IPv4MaskTest extends TestCase
             [33, "'33' must be an integer between 0 and 32, inclusive."],
             [24.0, "'24.0' must be either a prefix length from 0 to 32 or a valid subnet mask or a valid host mask."],
             ['0.255.0.255', "'0.255.0.255' must be either a valid subnet mask or a valid host mask."],
+            ['255.255.255 .0', "'255.255.255 .0' must be either a prefix length from 0 to 32 or a valid subnet mask or a valid host mask."],
+            ['255.255.256.0', "'255.255.256.0' must be either a prefix length from 0 to 32 or a valid subnet mask or a valid host mask."],
             ['/35', "'/35' must be an integer between 0 and 32, inclusive."],
 
             ['192.168.1.1/24', "'192.168.1.1/24' must be either a prefix length from 0 to 32 or a valid subnet mask or a valid host mask."],
@@ -226,7 +230,7 @@ class IPv4MaskTest extends TestCase
     {
         $mask = new IPv4Mask(24);
         $mask_str = (string) $mask;
-        
+
         $this->assertEquals('24', $mask_str);
     }
 }
