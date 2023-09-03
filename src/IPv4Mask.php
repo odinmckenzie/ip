@@ -105,4 +105,24 @@ class IPv4Mask
 
         return new self($prefix);
     }
+
+    public static function fromClassDefault(string $class): IPv4Mask
+    {
+        $accepted_classes = ['A', 'a', 'B', 'C', 'c'];
+        $class = strtoupper($class);
+
+        if (in_array($class, $accepted_classes) === false) {
+            throw new \InvalidArgumentException("'$class' must be either 'A', 'B', or 'C'. 
+                The other classes 'D' and 'E' do not have default netmasks.");
+        }
+
+        switch ($class) {
+            case 'A':
+                return new IPv4Mask(8);
+            case 'B':
+                return new IPv4Mask(16);
+            case 'C':
+                return new IPv4Mask(24);
+        }
+    }
 }
