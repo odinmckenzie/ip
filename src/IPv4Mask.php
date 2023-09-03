@@ -80,6 +80,7 @@ class IPv4Mask
     public function networkSize(): int
     {
         $num_ips = pow(2, (32 - $this->prefix())) - 2;
+        $num_ips = abs($num_ips);
 
         return $num_ips;
     }
