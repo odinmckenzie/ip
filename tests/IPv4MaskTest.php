@@ -246,4 +246,16 @@ class IPv4MaskTest extends TestCase
 
         $this->assertEquals('24', $mask_str);
     }
+
+    public function testFromClassDefault()
+    {
+        $a = IPv4Mask::fromClassDefault('A');
+        $this->assertEquals(new IPv4Mask(8), $a);
+
+        $b = IPv4Mask::fromClassDefault('B');
+        $this->assertEquals(new IPv4Mask(16), $b);
+
+        $c = IPv4Mask::fromClassDefault('C');
+        $this->assertEquals(new IPv4Mask(24), $c);
+    }
 }
