@@ -47,6 +47,14 @@ class IPv4AddressTest extends TestCase
         $this->assertEquals('192.168.1.2', $ip_str);
     }
 
+    public function testHostId()
+    {
+        $ip = new IPv4Address('192.168.1.2');
+        $host_id = $ip->hostId(24);
+
+        $this->assertEquals('0.0.0.2', $host_id);
+    }
+
     public function testIPv4AddressObjComparison()
     {
         $this->assertTrue(new IPv4Address('192.168.1.1') == new IPv4Address('192.168.1.1'));
