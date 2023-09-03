@@ -2,7 +2,7 @@
 
 namespace Odin\IP;
 
-use phpDocumentor\Reflection\Types\Mixed_;
+use Odin\IP\Address;
 
 class InvalidAddressException extends \Exception
 {
@@ -99,12 +99,9 @@ class IPv4Address
 
     public function toBinary(): string
     {
-        $binary = decbin($this->ip);
+        $binary = Address::toBinary($this);
 
-        // make sure the binary IP is 32 bits long by adding leading zeroes
-        $binary_str = str_pad($binary, 32, "0", STR_PAD_LEFT);
-
-        return $binary_str;
+        return $binary;
     }
 
     public function toFormattedBinary($netmask, string $gap = ' '): string
