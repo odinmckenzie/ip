@@ -30,6 +30,11 @@ class IPv4Address
         return long2ip($this->ip);
     }
 
+    public function __toString(): string
+    {
+        return $this->address();
+    }
+
     public function version(): int
     {
         return 4;
