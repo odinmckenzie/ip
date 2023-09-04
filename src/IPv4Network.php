@@ -38,4 +38,14 @@ class IPv4Network extends IPv4Address
     {
         return $this->netmask->networkSize();
     }
+
+    public function hosts(): array
+    {
+        $result = [];
+        for ($i = 1; $i <= $this->size(); $i++) {
+            $result[] = $this->add($i);
+        }
+
+        return $result;
+    }
 }
