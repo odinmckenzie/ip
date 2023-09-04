@@ -269,4 +269,13 @@ class IPv4AddressTest extends TestCase
         $privateNetworks = IPv4Network::privateNetworks();
         $this->assertEquals($expected_network, $privateNetworks);
     }
+
+    public function testIsLoopback()
+    {
+        $loopback = new IPv4Address('127.0.0.1');
+        $this->assertTrue($loopback->isLoopback());
+
+        $private = new IPv4Address('192.168.1.1');
+        $this->assertFalse($private->isLoopback());
+    }
 }
