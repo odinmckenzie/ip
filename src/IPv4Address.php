@@ -163,4 +163,9 @@ class IPv4Address
     {
         return self::classNetwork('D');
     }
+
+    public static function reservedNetwork(): IPv4Network
+    {
+        return self::classNetwork('E');
+    }
 }
