@@ -193,4 +193,41 @@ class IPv4AddressTest extends TestCase
         $loopbackNetwork = IPv4Network::loopbackNetwork();
         $this->assertEquals($expected_network, $loopbackNetwork);
     }
+
+    /**
+     * @dataProvider classNetworkProvider
+     */
+    public function testClassNetwork(string $class, string $expected)
+    {
+        $network = IPv4Network::classNetwork($class);
+        $expected_network = IPv4Network::from($expected);
+
+        $this->assertEquals($expected_network, $network);
+    }
+
+    public function classNetworkProvider(): array
+    {
+        return [
+            ['A', '0.0.0.0/1'],
+            ['a', '0.0.0.0/1'],
+
+            ['B', '128.0.0.0/2'],
+            ['b', '128.0.0.0/2'],
+
+            ['C', '192.0.0.0/3'],
+            ['c', '192.0.0.0/3'],
+
+            ['D', '224.0.0.0/4'],
+            ['d', '224.0.0.0/4'],
+
+            ['E', '240.0.0.0/4'],
+            ['e', '240.0.0.0/4'],
+        ];
+    }
+
+    public function testInvalidClassNetworkInput()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        IPv4Network::classNetwork('F');
+    }
 }
