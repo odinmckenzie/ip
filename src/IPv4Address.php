@@ -203,4 +203,9 @@ class IPv4Address
     {
         return $this->isLinkLocal();
     }
+
+    public function isMulticast(): bool 
+    {
+        return self::multicastNetwork()->contains($this->address());
+    }
 }
