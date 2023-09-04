@@ -28,4 +28,9 @@ class IPv4Network extends IPv4Address
     {
         return '0.0.0.0';
     }
+
+    public function mask(): IPv4Mask
+    {
+        return $this->netmask;
+    }
 }
