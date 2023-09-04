@@ -23,4 +23,9 @@ class IPv4Network extends IPv4Address
 
         parent::__construct($network_id);
     }
+
+    public function hostId($mask=null): string
+    {
+        return '0.0.0.0';
+    }
 }
