@@ -49,6 +49,16 @@ class IPv4Network extends IPv4Address
         return $result;
     }
 
+    public function broadcast(): IPv4Address
+    {
+        $subnet_mask_long = ip2long($this->netmask->subnetMask());
+        $broadcast_ip_long = $this->ip | ~$subnet_mask_long;
+
+        $broadcast_ip = long2ip($broadcast_ip_long);
+
+        return new IPv4Address($broadcast_ip);
+    }
+
     public function contains($ip): bool
     {
         if (!$ip instanceof IPv4Address) {
