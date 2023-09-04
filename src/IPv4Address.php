@@ -168,4 +168,24 @@ class IPv4Address
     {
         return self::classNetwork('E');
     }
+
+    public static function privateNetworks(): array
+    {
+        return [
+            IPv4Network::from('0.0.0.0/8'),
+            IPv4Network::from('10.0.0.0/8'),
+            IPv4Network::from('127.0.0.0/8'),
+            IPv4Network::from('169.254.0.0/16'),
+            IPv4Network::from('172.16.0.0/12'),
+            IPv4Network::from('192.0.0.0/29'),
+            IPv4Network::from('192.0.0.170/31'),
+            IPv4Network::from('192.0.2.0/24'),
+            IPv4Network::from('192.168.0.0/16'),
+            IPv4Network::from('198.18.0.0/15'),
+            IPv4Network::from('198.51.100.0/24'),
+            IPv4Network::from('203.0.113.0/24'),
+            IPv4Network::from('240.0.0.0/4'),
+            IPv4Network::from('255.255.255.255/32'),
+        ];
+    }
 }
