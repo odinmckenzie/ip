@@ -278,4 +278,15 @@ class IPv4AddressTest extends TestCase
         $private = new IPv4Address('192.168.1.1');
         $this->assertFalse($private->isLoopback());
     }
+
+    public function testIsLinklocal()
+    {
+        $linklocal = new IPv4Address('169.254.0.1');
+        $this->assertTrue($linklocal->isLinkLocal());
+        $this->assertTrue($linklocal->isAPIPA());
+
+        $private = new IPv4Address('192.168.1.1');
+        $this->assertFalse($private->isLinkLocal());
+        $this->assertFalse($private->isAPIPA());
+    }
 }
