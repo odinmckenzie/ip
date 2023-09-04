@@ -138,4 +138,24 @@ class IPv4Address
     {
         return IPv4Network::from('127.0.0.0/8');
     }
+
+    public static function classNetwork(string $class): IPv4Network
+    {
+        $class = strtoupper($class);
+
+        switch ($class) {
+            case 'A':
+                return IPv4Network::from('0.0.0.0/1');
+            case 'B':
+                return IPv4Network::from('128.0.0.0/2');
+            case 'C':
+                return IPv4Network::from('192.0.0.0/3');
+            case 'D':
+                return IPv4Network::from('224.0.0.0/4');
+            case 'E':
+                return IPv4Network::from('240.0.0.0/4');
+            default:
+                throw new \InvalidArgumentException("'$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
+        }
+    }
 }
