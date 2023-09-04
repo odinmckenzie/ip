@@ -37,4 +37,11 @@ class IPv4NetworkTest extends TestCase
         
         $this->assertEquals($expected, $net->hosts());
     }
+
+    public function testContains()
+    {
+        $net = new IPv4Network('192.168.1.0', 30);
+
+        $this->assertTrue($net->contains('192.168.1.1'));
+    }
 }
