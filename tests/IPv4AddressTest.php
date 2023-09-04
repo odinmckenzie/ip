@@ -289,4 +289,13 @@ class IPv4AddressTest extends TestCase
         $this->assertFalse($private->isLinkLocal());
         $this->assertFalse($private->isAPIPA());
     }
+
+    public function testIsMulticast()
+    {
+        $multicast = new IPv4Address('224.0.0.1');
+        $this->assertTrue($multicast->isMulticast());
+
+        $private = new IPv4Address('192.168.1.1');
+        $this->assertFalse($private->isMulticast());
+    }
 }
