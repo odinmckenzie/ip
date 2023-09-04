@@ -90,12 +90,18 @@ class IPv4Mask
         return $num_ips;
     }
 
-    
-    public function toBinary(): string 
+    public function toBinary(): string
     {
         $binary = Address::toBinary($this);
 
         return $binary;
+    }
+
+    public function toFormattedBinary(string $gap = ' '): string
+    {
+        $fbinary = Address::toFormattedBinary($this, $this, $gap);
+
+        return $fbinary;
     }
 
     public static function fromNetworkSize(int $size): self
