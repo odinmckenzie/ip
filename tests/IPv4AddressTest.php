@@ -238,4 +238,12 @@ class IPv4AddressTest extends TestCase
         $multicastNetwork = IPv4Network::multicastNetwork();
         $this->assertEquals($expected_network, $multicastNetwork);
     }
+
+    public function testReservedNetwork()
+    {
+        $expected_network = IPv4Network::from('240.0.0.0/4');
+
+        $reservedNetwork = IPv4Network::reservedNetwork();
+        $this->assertEquals($expected_network, $reservedNetwork);
+    }
 }
