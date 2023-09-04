@@ -193,4 +193,14 @@ class IPv4Address
     {
         return self::loopbackNetwork()->contains($this->address());
     }
+
+    public function isLinkLocal(): bool 
+    {
+        return self::linkLocalNetwork()->contains($this->address());
+    }
+
+    public function isAPIPA(): bool 
+    {
+        return $this->isLinkLocal();
+    }
 }
