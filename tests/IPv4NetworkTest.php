@@ -1,5 +1,6 @@
 <?php
 
+use Odin\IP\IPv4Address;
 use PHPUnit\Framework\TestCase;
 use Odin\IP\IPv4Network;
 
@@ -36,6 +37,13 @@ class IPv4NetworkTest extends TestCase
         $expected = ['192.168.1.1', '192.168.1.2'];
         
         $this->assertEquals($expected, $net->hosts());
+    }
+
+    public function testBroadcast()
+    {
+        $net = new IPv4Network('192.168.1.0', 24);
+        
+        $this->assertEquals(new IPv4Address('192.168.1.255'), $net->broadcast());
     }
 
     public function testContains()
