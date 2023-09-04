@@ -184,8 +184,9 @@ class IPv4Address
             IPv4Network::from('198.18.0.0/15'),
             IPv4Network::from('198.51.100.0/24'),
             IPv4Network::from('203.0.113.0/24'),
-            IPv4Network::from('240.0.0.0/4'),
-            IPv4Network::from('255.255.255.255/32'),
+
+            // includes 255.255.255.255
+            IPv4Network::from('240.0.0.0/4'), 
         ];
     }
 
@@ -207,5 +208,16 @@ class IPv4Address
     public function isMulticast(): bool 
     {
         return self::multicastNetwork()->contains($this->address());
+    }
+
+    public function isPrivate(): bool 
+    {
+        foreach (self::privateNetworks() as $private_net) {
+            if ($private_net->contains($this->address())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

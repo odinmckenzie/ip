@@ -263,7 +263,6 @@ class IPv4AddressTest extends TestCase
             IPv4Network::from('198.51.100.0/24'),
             IPv4Network::from('203.0.113.0/24'),
             IPv4Network::from('240.0.0.0/4'),
-            IPv4Network::from('255.255.255.255/32'),
         ];
 
         $privateNetworks = IPv4Network::privateNetworks();
@@ -297,5 +296,38 @@ class IPv4AddressTest extends TestCase
 
         $private = new IPv4Address('192.168.1.1');
         $this->assertFalse($private->isMulticast());
+    }
+
+    /**
+     * @dataProvider providerForTestIsPrivate
+     */
+    public function testIsPrivate($input, $expected_result)
+    {
+        $ip = new IPv4Address($input);
+        $this->assertEquals($expected_result, $ip->isPrivate());
+    }
+
+    public function providerForTestIsPrivate()
+    {
+        return [
+            ['0.0.0.0', true],
+            ['0.0.0.1', true],
+            ['10.0.0.1', true],
+            ['127.0.0.1', true],
+            ['169.254.0.1', true],
+            ['172.16.0.1', true],
+            ['192.0.0.1', true],
+            ['192.0.0.171', true],
+            ['192.0.2.1', true],
+            ['192.168.0.1', true],
+            ['198.18.0.1', true],
+            ['198.51.100.1', true],
+            ['203.0.113.1', true],
+            ['240.0.0.1', true],
+            ['255.255.255.255', true],
+
+            ['8.8.8.8', false],
+            ['1.1.1.1', false],
+        ];
     }
 }
