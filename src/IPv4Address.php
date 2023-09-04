@@ -51,7 +51,7 @@ class IPv4Address
         }
 
         $host_mask_long = ip2long($netmask->hostMask());
-        $host_id_long = $this->ip& $host_mask_long;
+        $host_id_long = $this->ip & $host_mask_long;
 
         $host_id = long2ip($host_id_long);
 
