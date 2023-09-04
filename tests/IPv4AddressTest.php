@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Odin\IP\IPv4Address;
+use Odin\IP\IPv4Network;
 use Odin\IP\IPv4Mask;
 use Odin\IP\InvalidAddressException;
 
@@ -46,6 +47,14 @@ class IPv4AddressTest extends TestCase
         $ip_str = (string) $ip;
 
         $this->assertEquals('192.168.1.2', $ip_str);
+    }
+
+    public function testNetworkId()
+    {
+        $ip = new IPv4Address('192.168.1.2');
+        $net = $ip->network(24);
+
+        $this->assertEquals('192.168.1.0', $net->address());
     }
 
     public function testHostId()
