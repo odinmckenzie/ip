@@ -174,4 +174,12 @@ class IPv4AddressTest extends TestCase
             ['255.255.255.0', new IPv4Mask(24), ' ', '11111111.11111111.11111111. 00000000'],
         ];
     }
+
+    public function testLinkLocalNetwork()
+    {
+        $linkLocalNetwork = IPv4Network::linkLocalNetwork();
+        $expected_network = IPv4Network::from('169.254.0.0/16');
+        
+        $this->assertEquals($expected_network, $linkLocalNetwork);
+    }
 }
