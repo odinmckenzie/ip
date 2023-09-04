@@ -22,4 +22,10 @@ class IPv4NetworkTest extends TestCase
         $net = new IPv4Network('192.168.1.1', 24);
         $this->assertEquals(24, $net->mask()->prefix());
     }
+
+    public function testSize()
+    {
+        $net = new IPv4Network('192.168.1.0', 30);
+        $this->assertEquals(2, $net->size());
+    }
 }
