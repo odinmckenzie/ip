@@ -28,4 +28,13 @@ class IPv4NetworkTest extends TestCase
         $net = new IPv4Network('192.168.1.0', 30);
         $this->assertEquals(2, $net->size());
     }
+
+    public function testHosts()
+    {
+        $net = new IPv4Network('192.168.1.0', 30);
+
+        $expected = ['192.168.1.1', '192.168.1.2'];
+        
+        $this->assertEquals($expected, $net->hosts());
+    }
 }
