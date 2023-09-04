@@ -179,10 +179,10 @@ class IPv4AddressTest extends TestCase
     {
         $expected_network = IPv4Network::from('169.254.0.0/16');
 
-        $linkLocalNetwork = IPv4Network::linkLocalNetwork();
+        $linkLocalNetwork = IPv4Address::linkLocalNetwork();
         $this->assertEquals($expected_network, $linkLocalNetwork);
 
-        $linkLocalNetwork = IPv4Network::apipaNetwork();
+        $linkLocalNetwork = IPv4Address::apipaNetwork();
         $this->assertEquals($expected_network, $linkLocalNetwork);
     }
 
