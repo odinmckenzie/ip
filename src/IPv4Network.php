@@ -33,4 +33,9 @@ class IPv4Network extends IPv4Address
     {
         return $this->netmask;
     }
+
+    public function size(): int 
+    {
+        return $this->netmask->networkSize();
+    }
 }
