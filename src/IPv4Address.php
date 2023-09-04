@@ -42,6 +42,19 @@ class IPv4Address
         return 4;
     }
 
+    public function network($mask): IPv4Network
+    {
+        if ($mask instanceof IPv4Mask) {
+            $netmask = $mask;
+        } else {
+            $netmask = new IPv4Mask($mask);
+        }
+
+        $net = new IPv4Network($this->address(), $netmask);
+
+        return $net;
+    }
+
     public function hostId($mask): string
     {
         if ($mask instanceof IPv4Mask) {
