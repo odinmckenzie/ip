@@ -123,4 +123,14 @@ class IPv4Address
 
         return $binary;
     }
+
+    public static function linkLocalNetwork(): IPv4Network
+    {
+        return IPv4Network::from('169.254.0.0/16');
+    }
+
+    public static function apipaNetwork(): IPv4Network
+    {
+        return self::linkLocalNetwork();
+    }
 }
