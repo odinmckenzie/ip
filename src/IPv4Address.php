@@ -220,4 +220,14 @@ class IPv4Address
 
         return false;
     }
+
+    public function isPublic(): bool
+    {
+        return !$this->isPrivate();
+    }
+
+    public function isGlobal(): bool
+    {
+        return $this->isPublic();
+    }
 }
