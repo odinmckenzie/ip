@@ -48,4 +48,15 @@ class IPv4Network extends IPv4Address
 
         return $result;
     }
+
+    public function contains($ip): bool
+    {
+        if (!$ip instanceof IPv4Address) {
+            $ip = new IPv4Address($ip);
+        }
+
+        $net = $ip->network($this->mask());
+
+        return $this->address() == $net->address();
+    }
 }
