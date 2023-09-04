@@ -133,4 +133,9 @@ class IPv4Address
     {
         return self::linkLocalNetwork();
     }
+
+    public static function loopbackNetwork(): IPv4Network
+    {
+        return IPv4Network::from('127.0.0.0/8');
+    }
 }
