@@ -330,4 +330,38 @@ class IPv4AddressTest extends TestCase
             ['1.1.1.1', false],
         ];
     }
+
+    /**
+     * @dataProvider providerForTestIsPublic
+     */
+    public function testIsPublic($input, $expected_result)
+    {
+        $ip = new IPv4Address($input);
+        $this->assertEquals($expected_result, $ip->isPublic());
+        $this->assertEquals($expected_result, $ip->isGlobal());
+    }
+
+    public function providerForTestIsPublic()
+    {
+        return [
+            ['0.0.0.0', false],
+            ['0.0.0.1', false],
+            ['10.0.0.1', false],
+            ['127.0.0.1', false],
+            ['169.254.0.1', false],
+            ['172.16.0.1', false],
+            ['192.0.0.1', false],
+            ['192.0.0.171', false],
+            ['192.0.2.1', false],
+            ['192.168.0.1', false],
+            ['198.18.0.1', false],
+            ['198.51.100.1', false],
+            ['203.0.113.1', false],
+            ['240.0.0.1', false],
+            ['255.255.255.255', false],
+
+            ['8.8.8.8', true],
+            ['1.1.1.1', true],
+        ];
+    }
 }
