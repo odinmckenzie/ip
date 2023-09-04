@@ -158,4 +158,9 @@ class IPv4Address
                 throw new \InvalidArgumentException("'$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
         }
     }
+
+    public static function multicastNetwork(): IPv4Network
+    {
+        return self::classNetwork('D');
+    }
 }
