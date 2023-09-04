@@ -6,7 +6,7 @@ class IPv4Network extends IPv4Address
 {
     private $netmask;
 
-    public function __construct($ip, $netmask)
+    public function __construct(string $ip, string $netmask)
     {
         parent::__construct($ip);
 
@@ -24,7 +24,17 @@ class IPv4Network extends IPv4Address
         parent::__construct($network_id);
     }
 
-    public function hostId($mask=null): string
+    public static function from(string $ip): self
+    {
+        if (strpos($ip, '/') == false)
+            throw new \InvalidArgumentException("'$ip' must use the / notation.");
+
+        list($ip_str, $netmask) = explode('/', $ip);
+
+        return new self($ip_str, $netmask);
+    }
+
+    public function hostId($mask = null): string
     {
         return '0.0.0.0';
     }
@@ -34,7 +44,7 @@ class IPv4Network extends IPv4Address
         return $this->netmask;
     }
 
-    public function size(): int 
+    public function size(): int
     {
         return $this->netmask->networkSize();
     }
