@@ -188,4 +188,9 @@ class IPv4Address
             IPv4Network::from('255.255.255.255/32'),
         ];
     }
+
+    public function isLoopback(): bool 
+    {
+        return self::loopbackNetwork()->contains($this->address());
+    }
 }
