@@ -64,6 +64,11 @@ class IPv4Network extends IPv4Address
         return $this->add(1);
     }
 
+    public function lastIP(): IPv4Address
+    {
+        return $this->broadcast()->subtract(1);
+    }
+
     public function contains($ip): bool
     {
         if (!$ip instanceof IPv4Address) {
