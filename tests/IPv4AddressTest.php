@@ -190,7 +190,7 @@ class IPv4AddressTest extends TestCase
     {
         $expected_network = IPv4Network::from('127.0.0.0/8');
 
-        $loopbackNetwork = IPv4Network::loopbackNetwork();
+        $loopbackNetwork = IPv4Address::loopbackNetwork();
         $this->assertEquals($expected_network, $loopbackNetwork);
     }
 
@@ -199,7 +199,7 @@ class IPv4AddressTest extends TestCase
      */
     public function testClassNetwork(string $class, string $expected)
     {
-        $network = IPv4Network::classNetwork($class);
+        $network = IPv4Address::classNetwork($class);
         $expected_network = IPv4Network::from($expected);
 
         $this->assertEquals($expected_network, $network);
@@ -228,14 +228,14 @@ class IPv4AddressTest extends TestCase
     public function testInvalidClassNetworkInput()
     {
         $this->expectException(\InvalidArgumentException::class);
-        IPv4Network::classNetwork('F');
+        IPv4Address::classNetwork('F');
     }
 
     public function testMulticastNetwork()
     {
         $expected_network = IPv4Network::from('224.0.0.0/4');
 
-        $multicastNetwork = IPv4Network::multicastNetwork();
+        $multicastNetwork = IPv4Address::multicastNetwork();
         $this->assertEquals($expected_network, $multicastNetwork);
     }
 
@@ -243,7 +243,7 @@ class IPv4AddressTest extends TestCase
     {
         $expected_network = IPv4Network::from('240.0.0.0/4');
 
-        $reservedNetwork = IPv4Network::reservedNetwork();
+        $reservedNetwork = IPv4Address::reservedNetwork();
         $this->assertEquals($expected_network, $reservedNetwork);
     }
 
@@ -265,7 +265,7 @@ class IPv4AddressTest extends TestCase
             IPv4Network::from('240.0.0.0/4'),
         ];
 
-        $privateNetworks = IPv4Network::privateNetworks();
+        $privateNetworks = IPv4Address::privateNetworks();
         $this->assertEquals($expected_network, $privateNetworks);
     }
 
