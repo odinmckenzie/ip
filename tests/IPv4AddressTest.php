@@ -185,4 +185,12 @@ class IPv4AddressTest extends TestCase
         $linkLocalNetwork = IPv4Network::apipaNetwork();
         $this->assertEquals($expected_network, $linkLocalNetwork);
     }
+
+    public function testLoopbackNetwork()
+    {
+        $expected_network = IPv4Network::from('127.0.0.0/8');
+
+        $loopbackNetwork = IPv4Network::loopbackNetwork();
+        $this->assertEquals($expected_network, $loopbackNetwork);
+    }
 }
