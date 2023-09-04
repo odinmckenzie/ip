@@ -230,4 +230,12 @@ class IPv4AddressTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         IPv4Network::classNetwork('F');
     }
+
+    public function testMulticastNetwork()
+    {
+        $expected_network = IPv4Network::from('224.0.0.0/4');
+
+        $multicastNetwork = IPv4Network::multicastNetwork();
+        $this->assertEquals($expected_network, $multicastNetwork);
+    }
 }
