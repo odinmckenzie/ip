@@ -139,6 +139,19 @@ class IPv4Address
         return IPv4Network::from('127.0.0.0/8');
     }
 
+    public function class(): string 
+    {
+        $classes = ['A', 'B', 'C', 'D', 'E'];
+
+        $this_ip = $this->address();
+
+        foreach ($classes as $class) {
+            if ($this->classNetwork($class)->contains($this_ip)) {
+                return $class;
+            }
+        }
+    }
+
     public static function classNetwork(string $class): IPv4Network
     {
         $class = strtoupper($class);
