@@ -269,4 +269,11 @@ class IPv4NetworkTest extends TestCase
 
         $this->assertEquals('192.168.1.0/24', (string) $net);
     }
+
+    public function testSubnetsCount()
+    {
+        $net = IPv4Network::from('192.168.1.0/24');
+        
+        $this->assertEquals(4, $net->subnetsCount('/26'));
+    }
 }
