@@ -89,4 +89,12 @@ class IPv4Network extends IPv4Address
 
         return $this->address() == $net->address();
     }
+
+    public function __toString(): string
+    {
+        $net = $this->address();
+        $prefix = $this->mask()->prefix();
+        
+        return "$net/$prefix";
+    }
 }
