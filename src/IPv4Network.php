@@ -94,7 +94,18 @@ class IPv4Network extends IPv4Address
     {
         $net = $this->address();
         $prefix = $this->mask()->prefix();
-        
+
         return "$net/$prefix";
+    }
+
+    public function subnetsCount($new_mask): int
+    {
+        if (!$new_mask instanceof IPv4Mask) {
+            $new_mask = new IPv4Mask($new_mask);
+        } 
+
+        $num_subnets = 1 << ($new_mask->prefix() - $this->netmask->prefix());
+
+        return $num_subnets;
     }
 }
