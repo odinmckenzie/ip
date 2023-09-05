@@ -364,4 +364,24 @@ class IPv4AddressTest extends TestCase
             ['1.1.1.1', true],
         ];
     }
+
+    /**
+     * @dataProvider providerForTestClass
+     */
+    public function testClass($input, $expected_result)
+    {
+        $ip = new IPv4Address($input);
+        $this->assertEquals($expected_result, $ip->class());
+    }
+
+    public function providerForTestClass()
+    {
+        return [
+            ['10.0.0.1', 'A'],
+            ['172.16.0.1', 'B'],
+            ['192.168.1.1', 'C'],
+            ['224.0.0.1', 'D'],
+            ['240.0.0.1', 'E'],
+        ];
+    }
 }
