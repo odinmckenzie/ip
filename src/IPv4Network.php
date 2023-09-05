@@ -108,4 +108,23 @@ class IPv4Network extends IPv4Address
 
         return $num_subnets;
     }
+    
+    public function subnets($new_mask): array
+    {
+        if (!$new_mask instanceof IPv4Mask) {
+            $new_mask = new IPv4Mask($new_mask);
+        }
+
+        $new_mask_prefix = $new_mask->prefix();
+
+        $result = [];
+        for ($i = 0; $i < $this->subnetsCount($new_mask); $i++) {
+            $new_subnet_long = $this->ip + ($i << (32 - $new_mask_prefix));
+            $new_subnet_ip = long2ip($new_subnet_long);
+
+            $result[] = new IPv4Network($new_subnet_ip, $new_mask);
+        }
+
+        return $result;
+    }
 }
