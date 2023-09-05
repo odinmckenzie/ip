@@ -6,7 +6,7 @@ class IPv4Network extends IPv4Address
 {
     private $netmask;
 
-    public function __construct(string $ip, string $netmask)
+    public function __construct(string $ip, $netmask)
     {
         parent::__construct($ip);
 
