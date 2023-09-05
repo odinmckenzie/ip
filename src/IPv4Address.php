@@ -154,22 +154,21 @@ class IPv4Address
 
     public static function classNetwork(string $class): IPv4Network
     {
+        $classes = [
+            'A' => IPv4Network::from('0.0.0.0/1'),
+            'B' => IPv4Network::from('128.0.0.0/2'),
+            'C' => IPv4Network::from('192.0.0.0/3'),
+            'D' => IPv4Network::from('224.0.0.0/4'),
+            'E' => IPv4Network::from('240.0.0.0/4'),
+        ];
+
         $class = strtoupper($class);
 
-        switch ($class) {
-            case 'A':
-                return IPv4Network::from('0.0.0.0/1');
-            case 'B':
-                return IPv4Network::from('128.0.0.0/2');
-            case 'C':
-                return IPv4Network::from('192.0.0.0/3');
-            case 'D':
-                return IPv4Network::from('224.0.0.0/4');
-            case 'E':
-                return IPv4Network::from('240.0.0.0/4');
-            default:
-                throw new \InvalidArgumentException("'$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
+        if (!array_key_exists($class, $classes)) {
+            throw new \InvalidArgumentException("'$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
         }
+
+        return $classes[$class];
     }
 
     public static function multicastNetwork(): IPv4Network
