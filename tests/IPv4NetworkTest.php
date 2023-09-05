@@ -262,4 +262,11 @@ class IPv4NetworkTest extends TestCase
             ['1.1.1.1', true],
         ];
     }
+
+    public function testToString()
+    {
+        $net = IPv4Network::from('192.168.1.0/24');
+
+        $this->assertEquals('192.168.1.0/24', (string) $net);
+    }
 }
