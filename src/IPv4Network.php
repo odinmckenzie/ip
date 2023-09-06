@@ -2,6 +2,10 @@
 
 namespace Odin\IP;
 
+class IllegalOperationException extends \Exception
+{
+}
+
 class IPv4Network extends IPv4Address
 {
     private $netmask;
@@ -102,13 +106,21 @@ class IPv4Network extends IPv4Address
     {
         if (!$new_mask instanceof IPv4Mask) {
             $new_mask = new IPv4Mask($new_mask);
-        } 
+        }
 
-        $num_subnets = 1 << ($new_mask->prefix() - $this->netmask->prefix());
+        $new_prefix = $new_mask->prefix();
+        $current_prefix = $this->netmask->prefix();
+
+        $prefix_diff = $new_prefix - $current_prefix;
+
+        if ($prefix_diff < 0) 
+            throw new IllegalOperationException("The new mask '/$new_prefix' cannot be less than the current mask of '/$current_prefix'.");
+
+        $num_subnets = 1 << $prefix_diff;
 
         return $num_subnets;
     }
-    
+
     public function subnets($new_mask): array
     {
         if (!$new_mask instanceof IPv4Mask) {
