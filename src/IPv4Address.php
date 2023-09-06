@@ -10,7 +10,7 @@ class InvalidAddressException extends \Exception
 
 class IPv4Address
 {
-    protected $ip;
+    protected $ip_long;
 
     public function __construct($ip)
     {
@@ -24,17 +24,22 @@ class IPv4Address
             }
         }
 
-        $this->ip = ip2long($ip);
+        $this->ip_long = ip2long($ip);
     }
 
     public function address(): string
     {
-        return long2ip($this->ip);
+        return long2ip($this->ip_long);
     }
 
     public function __toString(): string
     {
         return $this->address();
+    }
+
+    public function toInt(): int 
+    {
+        return $this->ip_long;
     }
 
     public function version(): int
@@ -64,7 +69,7 @@ class IPv4Address
         }
 
         $host_mask_long = ip2long($netmask->hostMask());
-        $host_id_long = $this->ip & $host_mask_long;
+        $host_id_long = $this->ip_long & $host_mask_long;
 
         $host_id = long2ip($host_id_long);
 
@@ -73,7 +78,7 @@ class IPv4Address
 
     public function add(int $increment): IPv4Address
     {
-        $next_ip_long = $this->ip + $increment;
+        $next_ip_long = $this->ip_long + $increment;
 
         $ip = $this->address();
 
@@ -90,7 +95,7 @@ class IPv4Address
 
     public function subtract(int $increment): IPv4Address
     {
-        $next_ip_long = $this->ip - $increment;
+        $next_ip_long = $this->ip_long - $increment;
 
         $ip = $this->address();
 
@@ -107,7 +112,7 @@ class IPv4Address
 
     public function isUnspecified(): bool
     {
-        return $this->ip == 0;
+        return $this->ip_long == 0;
     }
 
     public function toBinary(): string

@@ -21,7 +21,7 @@ class IPv4Network extends IPv4Address
         }
 
         $subnet_mask_long = ip2long($this->netmask->subnetMask());
-        $network_id_long = $this->ip & $subnet_mask_long;
+        $network_id_long = $this->ip_long & $subnet_mask_long;
 
         $network_id = long2ip($network_id_long);
 
@@ -66,7 +66,7 @@ class IPv4Network extends IPv4Address
     public function broadcast(): IPv4Address
     {
         $subnet_mask_long = ip2long($this->netmask->subnetMask());
-        $broadcast_ip_long = $this->ip | ~$subnet_mask_long;
+        $broadcast_ip_long = $this->ip_long | ~$subnet_mask_long;
 
         $broadcast_ip = long2ip($broadcast_ip_long);
 
@@ -131,7 +131,7 @@ class IPv4Network extends IPv4Address
 
         $result = [];
         for ($i = 0; $i < $this->subnetsCount($new_mask); $i++) {
-            $new_subnet_long = $this->ip + ($i << (32 - $new_mask_prefix));
+            $new_subnet_long = $this->ip_long + ($i << (32 - $new_mask_prefix));
             $new_subnet_ip = long2ip($new_subnet_long);
 
             $result[] = new IPv4Network($new_subnet_ip, $new_mask);
