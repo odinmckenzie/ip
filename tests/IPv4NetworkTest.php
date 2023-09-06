@@ -300,4 +300,13 @@ class IPv4NetworkTest extends TestCase
         
         $this->assertEquals($expected_result, $net->subnets('/26'));
     }
+
+    public function testSubnetsInvalidInput()
+    {
+        $this->expectException(IllegalOperationException::class);
+        $this->expectExceptionMessage("The new mask '/24' cannot be less than the current mask of '/26'.");
+
+        $net = IPv4Network::from('192.168.1.0/26');
+        $net->subnets('/24');
+    }
 }
