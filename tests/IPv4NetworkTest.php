@@ -281,7 +281,7 @@ class IPv4NetworkTest extends TestCase
     public function testSubnetsCountInvalidInput()
     {
         $this->expectException(IllegalOperationException::class);
-        $this->expectExceptionMessage("The new mask '/24' cannot be less than the current mask of '/26'.");
+        $this->expectExceptionMessage("The new mask '/24' cannot be less than the current mask of '/26' for this operation.");
 
         $net = IPv4Network::from('192.168.1.0/26');
         $net->subnetsCount('/24');
@@ -304,9 +304,24 @@ class IPv4NetworkTest extends TestCase
     public function testSubnetsInvalidInput()
     {
         $this->expectException(IllegalOperationException::class);
-        $this->expectExceptionMessage("The new mask '/24' cannot be less than the current mask of '/26'.");
+        $this->expectExceptionMessage("The new mask '/24' cannot be less than the current mask of '/26' for this operation.");
 
         $net = IPv4Network::from('192.168.1.0/26');
         $net->subnets('/24');
+    }
+
+    public function testClassfulSubnetsCount()
+    {
+        $net = IPv4Network::from('192.168.1.0/26');
+        $this->assertEquals(4, $net->classfulSubnetsCount());
+    }
+
+    public function testClassfulSubnetsCountInvalidInput()
+    {
+        $this->expectException(IllegalOperationException::class);
+        $this->expectExceptionMessage("The default mask of '/24' cannot be more than the current mask of '/22' for this operation.");
+
+        $net = IPv4Network::from('192.168.1.0/22');
+        $net->classfulSubnetsCount();
     }
 }
