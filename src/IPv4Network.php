@@ -151,10 +151,22 @@ class IPv4Network extends IPv4Address
         $prefix_diff = $current_prefix - $class_prefix;
 
         if ($prefix_diff < 0) 
-            throw new IllegalOperationException("The default mask of '/$class_prefix' cannot be more than the current mask of '/$current_prefix' for this operation.");
+            throw new IllegalOperationException("The default mask of '/$class_prefix' cannot be greater than the current mask of '/$current_prefix' for this operation.");
 
         $num_subnets = 1 << $prefix_diff;
         
         return $num_subnets;
+    }
+
+    public function classfulSubnets(): array 
+    {
+        $class = $this->class();
+        $class_mask = IPv4Mask::fromClassDefault($class);
+        $current_net = $this->address();
+
+        $class_net = new IPv4Network($current_net, $class_mask);
+        $current_mask = $this->mask();
+
+        return $class_net->subnets($current_mask);
     }
 }
