@@ -3,6 +3,7 @@
 use Odin\IP\IPv4Address;
 use PHPUnit\Framework\TestCase;
 use Odin\IP\IPv4Network;
+use Odin\IP\IllegalOperationException;
 
 class IPv4NetworkTest extends TestCase
 {
@@ -275,6 +276,15 @@ class IPv4NetworkTest extends TestCase
         $net = IPv4Network::from('192.168.1.0/24');
         
         $this->assertEquals(4, $net->subnetsCount('/26'));
+    }
+
+    public function testSubnetsCountInvalidInput()
+    {
+        $this->expectException(IllegalOperationException::class);
+        $this->expectExceptionMessage("The new mask '/24' cannot be less than the current mask of '/26'.");
+
+        $net = IPv4Network::from('192.168.1.0/26');
+        $net->subnetsCount('/24');
     }
 
     public function testSubnets()
