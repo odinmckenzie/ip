@@ -31,13 +31,13 @@ class IPv4AddressTest extends TestCase
     public function invalidIPv4AddressProvider()
     {
         return [
-            ['192.168.1.256', "'192.168.1.256' is in an unexpected format"],
-            ['192.168.1.1.1', "'192.168.1.1.1' is in an unexpected format"],
-            ['192.168.1.', "'192.168.1.' is in an unexpected format"],
-            ['192.168', "'192.168' is in an unexpected format"],
-
-            ['192.168.1.1/24', "Unexpected '/' found in '192.168.1.1/24'"],
-            ['192.168.1.1/255.255.255.0', "Unexpected '/' found in '192.168.1.1/255.255.255.0'"],
+            ['192.168.1.256', "'192.168.1.256' is in an unexpected format."],
+            ['192.168.1.1.1', "'192.168.1.1.1' is in an unexpected format."],
+            ['192.168.1.', "'192.168.1.' is in an unexpected format."],
+            ['192.168', "'192.168' is in an unexpected format."],
+            
+            ['192.168.1.1/24', "Unexpected '/' found in '192.168.1.1/24'. Use the from() static method instead."],
+            ['192.168.1.1/255.255.255.0', "Unexpected '/' found in '192.168.1.1/255.255.255.0'. Use the from() static method instead."],
         ];
     }
 
@@ -46,21 +46,21 @@ class IPv4AddressTest extends TestCase
         $ip = new IPv4Address('192.168.1.2 ');
         $ip_str = (string) $ip;
 
-        $this->assertEquals('192.168.1.2', $ip_str);
+        $this->assertEquals('192.168.1.2/32', $ip_str);
     }
 
     public function testNetworkId()
     {
-        $ip = new IPv4Address('192.168.1.2');
-        $net = $ip->network(24);
+        $ip = new IPv4Address('192.168.1.2', 24);
+        $net = $ip->network();
 
         $this->assertEquals('192.168.1.0', $net->address());
     }
 
     public function testHostId()
     {
-        $ip = new IPv4Address('192.168.1.2');
-        $host_id = $ip->hostId(24);
+        $ip = new IPv4Address('192.168.1.2', 24);
+        $host_id = $ip->hostId();
 
         $this->assertEquals('0.0.0.2', $host_id);
     }
@@ -170,7 +170,7 @@ class IPv4AddressTest extends TestCase
     {
         return [
             ['10.1.1.1', '/8', ' ', '00001010. 00000001.00000001.00000001'],
-            ['192.168.0.1', 24, '', '11000000.10101000.00000000.00000001'],
+            ['192.168.0.1', 24, null, '11000000.10101000.00000000.00000001'],
             ['255.255.255.0', new IPv4Mask(24), ' ', '11111111.11111111.11111111. 00000000'],
         ];
     }

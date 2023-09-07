@@ -41,7 +41,10 @@ class IPv4NetworkTest extends TestCase
     {
         $net = new IPv4Network('192.168.1.0', 30);
 
-        $expected = ['192.168.1.1', '192.168.1.2'];
+        $expected = [
+            IPv4Address::from('192.168.1.1/30'), 
+            IPv4Address::from('192.168.1.2/30')
+        ];
         
         $this->assertEquals($expected, $net->hosts());
     }
@@ -50,21 +53,21 @@ class IPv4NetworkTest extends TestCase
     {
         $net = new IPv4Network('192.168.1.0', 24);
         
-        $this->assertEquals(new IPv4Address('192.168.1.255'), $net->broadcast());
+        $this->assertEquals(new IPv4Address('192.168.1.255', 24), $net->broadcast());
     }
 
     public function testFirstIP()
     {
         $net = new IPv4Network('192.168.1.0', 24);
         
-        $this->assertEquals(new IPv4Address('192.168.1.1'), $net->firstIP());
+        $this->assertEquals(new IPv4Address('192.168.1.1', 24), $net->firstIP());
     }
 
     public function testLastIP()
     {
         $net = new IPv4Network('192.168.1.0', 24);
         
-        $this->assertEquals(new IPv4Address('192.168.1.254'), $net->lastIP());
+        $this->assertEquals(new IPv4Address('192.168.1.254', 24), $net->lastIP());
     }
 
     public function testContains()

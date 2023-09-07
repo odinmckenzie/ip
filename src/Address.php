@@ -2,35 +2,25 @@
 
 namespace Odin\IP;
 
-use Odin\IP\IPv4Mask;
-
 class Address
 {
     public static function toBinary($input): string
     {
-        $result = '';
-
-        switch (true) {
-            case ($input instanceof IPv4Address) || ($input instanceof IPv4Network):
-                $mask_long = ip2long($input->address());
-                $binary = decbin($mask_long);
-                $binary = str_pad($binary, 32, "0", STR_PAD_LEFT);
-                // make sure the IP binary is 32 bits long by adding leading zeroes
-                $result = str_pad($binary, 32, "0", STR_PAD_LEFT);
-                break;
-            case ($input instanceof IPv4Mask):
-                $mask_long = ip2long($input->subnetMask());
-                $binary = decbin($mask_long);
-                $binary = str_pad($binary, 32, "0", STR_PAD_LEFT);
-                // make sure the netmask binary is 32 bits long by adding leading zeroes
-                $result = str_pad($binary, 32, "0", STR_PAD_LEFT);
-                break;
+        if ($input instanceof IPv4Address || $input instanceof IPv4Network) {
+            $long_value = $input->toInt();
+        } elseif ($input instanceof IPv4Mask) {
+            $long_value = ip2long($input->subnetMask());
+        } else {
+            throw new \InvalidArgumentException("The value is not of type IPv4Address or IPv4Network or IPv4Mask.");
         }
 
-        return $result;
+        $binary_str = decbin($long_value);
+        $binary_str = str_pad($binary_str, 32, '0', STR_PAD_LEFT);
+
+        return $binary_str;
     }
 
-    public static function toFormattedBinary($ip, $netmask, string $gap = ' '): string
+    public static function toFormattedBinary($ip, $netmask, string $gap = null): string
     {
         if (!isset($gap)) {
             $gap = '';

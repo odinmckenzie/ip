@@ -8,49 +8,36 @@ class IllegalOperationException extends \Exception
 
 class IPv4Network extends IPv4Address
 {
-    private $netmask;
-
     public function __construct(string $ip, $netmask)
     {
-        parent::__construct($ip);
+        parent::__construct($ip, $netmask);
 
-        if ($netmask instanceof IPv4Mask) {
-            $this->netmask = $netmask;
-        } else {
-            $this->netmask = new IPv4Mask($netmask);
-        }
-
-        $subnet_mask_long = ip2long($this->netmask->subnetMask());
+        $subnet_mask_long = ip2long($this->mask()->subnetMask());
         $network_id_long = $this->ip_long & $subnet_mask_long;
 
-        $network_id = long2ip($network_id_long);
-
-        parent::__construct($network_id);
+        $this->ip_long = $network_id_long;
     }
 
-    public static function from(string $ip): self
+    public static function from(string $ip)
     {
-        if (strpos($ip, '/') == false)
-            throw new \InvalidArgumentException("'$ip' must use the / notation.");
+        if (strpos($ip, '/') === false) {
+            throw new \InvalidArgumentException("'$ip' must use the slash notation to specify the netmask.");
+        } else {
+            list($ip_str, $netmask) = explode('/', $ip);
 
-        list($ip_str, $netmask) = explode('/', $ip);
-
-        return new self($ip_str, $netmask);
+            return new self($ip_str, $netmask);
+        }
     }
 
-    public function hostId($mask = null): string
+    public function hostId(): string
     {
+        // because this is a net id
         return '0.0.0.0';
-    }
-
-    public function mask(): IPv4Mask
-    {
-        return $this->netmask;
     }
 
     public function size(): int
     {
-        return $this->netmask->networkSize();
+        return $this->mask()->networkSize();
     }
 
     public function hosts(): array
@@ -65,12 +52,12 @@ class IPv4Network extends IPv4Address
 
     public function broadcast(): IPv4Address
     {
-        $subnet_mask_long = ip2long($this->netmask->subnetMask());
+        $subnet_mask_long = ip2long($this->mask()->subnetMask());
         $broadcast_ip_long = $this->ip_long | ~$subnet_mask_long;
 
         $broadcast_ip = long2ip($broadcast_ip_long);
 
-        return new IPv4Address($broadcast_ip);
+        return new IPv4Address($broadcast_ip, $this->mask());
     }
 
     public function firstIP(): IPv4Address
@@ -89,17 +76,9 @@ class IPv4Network extends IPv4Address
             $ip = new IPv4Address($ip);
         }
 
-        $net = $ip->network($this->mask());
+        $ip_net = new self($ip->address(), $this->mask());
 
-        return $this->address() == $net->address();
-    }
-
-    public function __toString(): string
-    {
-        $net = $this->address();
-        $prefix = $this->mask()->prefix();
-
-        return "$net/$prefix";
+        return $this->address() == $ip_net->address();
     }
 
     public function subnetsCount($new_mask): int
@@ -113,7 +92,7 @@ class IPv4Network extends IPv4Address
 
         $prefix_diff = $new_prefix - $current_prefix;
 
-        if ($prefix_diff < 0) 
+        if ($prefix_diff < 0)
             throw new IllegalOperationException("The new mask '/$new_prefix' cannot be less than the current mask of '/$current_prefix' for this operation.");
 
         $num_subnets = 1 << $prefix_diff;
@@ -150,15 +129,15 @@ class IPv4Network extends IPv4Address
 
         $prefix_diff = $current_prefix - $class_prefix;
 
-        if ($prefix_diff < 0) 
+        if ($prefix_diff < 0)
             throw new IllegalOperationException("The default mask of '/$class_prefix' cannot be greater than the current mask of '/$current_prefix' for this operation.");
 
         $num_subnets = 1 << $prefix_diff;
-        
+
         return $num_subnets;
     }
 
-    public function classfulSubnets(): array 
+    public function classfulSubnets(): array
     {
         $class = $this->class();
         $class_mask = IPv4Mask::fromClassDefault($class);
