@@ -2,14 +2,30 @@
 
 namespace Odin\IP;
 
+/**
+ * Exception class for invalid netmask values.
+ */
 class InvalidNetmaskException extends \Exception
 {
 }
 
+/**
+ * Represents an IPv4 subnet mask and provides various operations related to it.
+ */
 class IPv4Mask
 {
+    /**
+     * @var int The prefix length of the subnet mask.
+     */
     private $prefix;
 
+    /**
+     * Constructs an IPv4Mask object based on the provided subnet mask or prefix length.
+     *
+     * @param mixed $mask A subnet mask (string or integer) or a prefix length (integer).
+     *
+     * @throws InvalidNetmaskException If the provided mask is invalid.
+     */
     public function __construct($mask)
     {
         $mask_val = $mask;
@@ -54,16 +70,31 @@ class IPv4Mask
         }
     }
 
+    /**
+     * Get the prefix length of the subnet mask.
+     *
+     * @return int The prefix length.
+     */
     public function prefix(): int
     {
         return $this->prefix;
     }
 
+    /**
+     * Convert the IPv4Mask object to its string representation.
+     *
+     * @return string The string representation of the prefix length.
+     */
     public function __toString(): string
     {
         return (string) $this->prefix;
     }
 
+    /**
+     * Get the subnet mask as an IPv4 address.
+     *
+     * @return string The subnet mask as an IPv4 address.
+     */
     public function subnetMask(): string
     {
         if ($this->prefix == 0) {
@@ -75,6 +106,11 @@ class IPv4Mask
         }
     }
 
+    /**
+     * Get the host mask as an IPv4 address.
+     *
+     * @return string The host mask as an IPv4 address.
+     */
     public function hostMask(): string
     {
         $host_mask_long = ~(-1 << (32 - $this->prefix));
@@ -82,6 +118,11 @@ class IPv4Mask
         return long2ip($host_mask_long);
     }
 
+    /**
+     * Get the size of the network represented by the subnet mask.
+     *
+     * @return int The size of the network.
+     */
     public function networkSize(): int
     {
         $num_ips = pow(2, (32 - $this->prefix())) - 2;
@@ -90,6 +131,11 @@ class IPv4Mask
         return $num_ips;
     }
 
+    /**
+     * Convert the IPv4 subnet mask to its binary representation.
+     *
+     * @return string The binary representation of the subnet mask.
+     */
     public function toBinary(): string
     {
         $binary = Address::toBinary($this);
@@ -97,6 +143,13 @@ class IPv4Mask
         return $binary;
     }
 
+    /**
+     * Convert the IPv4 subnet mask to its formatted binary representation.
+     *
+     * @param string|null $gap Optional gap separator between octets.
+     *
+     * @return string The formatted binary representation of the subnet mask.
+     */
     public function toFormattedBinary(string $gap = null): string
     {
         $fbinary = Address::toFormattedBinary($this, $this, $gap);
@@ -104,6 +157,15 @@ class IPv4Mask
         return $fbinary;
     }
 
+    /**
+     * Create an IPv4Mask object based on a desired network size.
+     *
+     * @param int $size The desired network size.
+     *
+     * @return IPv4Mask An IPv4Mask object with the closest matching prefix length.
+     *
+     * @throws InvalidArgumentException If the size is out of range.
+     */
     public static function fromNetworkSize(int $size): self
     {
         if ($size > 4294967294 || $size < 0) {
@@ -120,6 +182,15 @@ class IPv4Mask
         return new self($prefix);
     }
 
+    /**
+     * Create an IPv4Mask object based on the classful default subnet mask for a given IP class.
+     *
+     * @param string $class The IP class ('A', 'B', or 'C').
+     *
+     * @return IPv4Mask An IPv4Mask object with the default prefix length for the specified class.
+     *
+     * @throws InvalidArgumentException If an invalid IP class is provided.
+     */
     public static function fromClassDefault(string $class): IPv4Mask
     {
         $accepted_classes = ['A', 'B', 'C'];

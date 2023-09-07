@@ -4,6 +4,22 @@ namespace Odin\IP;
 
 class Network
 {
+    /**
+     * Summarizes an array of IPv4 networks into a single supernet.
+     *
+     * This method takes an array of IPv4Network objects or valid network
+     * representations and calculates the smallest supernet that encompasses all
+     * provided networks.
+     *
+     * @param array $networks An array of IPv4Network objects or network
+     *                        representations (e.g., "192.168.1.0/24").
+     *
+     * @return IPv4Network A new IPv4Network object representing the summarized supernet.
+     *
+     * @throws InvalidArgumentException If an invalid network representation is provided.
+     *
+     * @see IPv4Network
+     */
     public static function summarize(array $networks): IPv4Network
     {
         $lowest_ip_long = PHP_INT_MAX;

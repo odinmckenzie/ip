@@ -2,8 +2,20 @@
 
 namespace Odin\IP;
 
+/**
+ * Provides constants and methods for working with various IPv4 network constants.
+ */
 class IPv4Constants
 {
+    /**
+     * Get the IPv4 network object corresponding to a specified IP address class.
+     *
+     * @param string $class The IP address class ('A', 'B', 'C', 'D', or 'E').
+     *
+     * @return IPv4Network The IPv4 network object representing the specified class.
+     *
+     * @throws InvalidArgumentException If an invalid IP address class is provided.
+     */
     public static function classNetwork(string $class): IPv4Network
     {
         $classes = [
@@ -23,16 +35,31 @@ class IPv4Constants
         return $classes[$class];
     }
 
+    /**
+     * Get the IPv4 multicast network object.
+     *
+     * @return IPv4Network The IPv4 multicast network object.
+     */
     public static function multicastNetwork(): IPv4Network
     {
         return self::classNetwork('D');
     }
 
+    /**
+     * Get the IPv4 reserved network object.
+     *
+     * @return IPv4Network The IPv4 reserved network object.
+     */
     public static function reservedNetwork(): IPv4Network
     {
         return self::classNetwork('E');
     }
 
+    /**
+     * Get an array of IPv4 network objects representing various private networks.
+     *
+     * @return array An array of IPv4 network objects representing private networks.
+     */
     public static function privateNetworks(): array
     {
         return [
@@ -54,16 +81,31 @@ class IPv4Constants
         ];
     }
 
+    /**
+     * Get the IPv4 link-local network object.
+     *
+     * @return IPv4Network The IPv4 link-local network object.
+     */
     public static function linkLocalNetwork(): IPv4Network
     {
         return IPv4Network::from('169.254.0.0/16');
     }
 
+    /**
+     * Get the IPv4 Automatic Private IP Addressing (APIPA) network object.
+     *
+     * @return IPv4Network The IPv4 APIPA network object.
+     */
     public static function apipaNetwork(): IPv4Network
     {
         return self::linkLocalNetwork();
     }
 
+    /**
+     * Get the IPv4 loopback network object.
+     *
+     * @return IPv4Network The IPv4 loopback network object.
+     */
     public static function loopbackNetwork(): IPv4Network
     {
         return IPv4Network::from('127.0.0.0/8');

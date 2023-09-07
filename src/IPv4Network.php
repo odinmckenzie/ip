@@ -2,22 +2,43 @@
 
 namespace Odin\IP;
 
+/**
+ * Exception class for illegal network operations.
+ */
 class IllegalOperationException extends \Exception
 {
 }
 
+/**
+ * Represents an IPv4 network and provides various operations related to it.
+ */
 class IPv4Network extends IPv4Address
 {
+    /**
+     * Constructs an IPv4Network object based on the provided IP address and netmask.
+     *
+     * @param string $ip The IP address in string format.
+     * @param mixed $netmask The subnet mask (string or integer) or a prefix length (integer).
+     */
     public function __construct(string $ip, $netmask)
     {
         parent::__construct($ip, $netmask);
 
         $subnet_mask_long = ip2long($this->mask()->subnetMask());
-        $network_id_long = $this->ip_long & $subnet_mask_long;
+        $network_id_long = $this->ip_long& $subnet_mask_long;
 
         $this->ip_long = $network_id_long;
     }
 
+    /**
+     * Create an IPv4Network object from an IP address in slash notation.
+     *
+     * @param string $ip The IP address in slash notation (e.g., "192.168.1.0/24").
+     *
+     * @return IPv4Network An IPv4Network object created from the slash notation.
+     *
+     * @throws InvalidArgumentException If the slash notation is invalid.
+     */
     public static function from(string $ip)
     {
         if (strpos($ip, '/') === false) {
@@ -29,17 +50,32 @@ class IPv4Network extends IPv4Address
         }
     }
 
+    /**
+     * Get the host ID (always "0.0.0.0" for network IDs).
+     *
+     * @return string The host ID as "0.0.0.0".
+     */
     public function hostId(): string
     {
         // because this is a net id
         return '0.0.0.0';
     }
 
+    /**
+     * Get the size of the network represented by the subnet mask.
+     *
+     * @return int The size of the network.
+     */
     public function size(): int
     {
         return $this->mask()->networkSize();
     }
 
+    /**
+     * Get an array of IPv4Address objects representing all hosts within the network.
+     *
+     * @return array An array of IPv4Address objects.
+     */
     public function hosts(): array
     {
         $result = [];
@@ -50,6 +86,11 @@ class IPv4Network extends IPv4Address
         return $result;
     }
 
+    /**
+     * Get the broadcast address as an IPv4Address object.
+     *
+     * @return IPv4Address The broadcast address.
+     */
     public function broadcast(): IPv4Address
     {
         $subnet_mask_long = ip2long($this->mask()->subnetMask());
@@ -60,16 +101,33 @@ class IPv4Network extends IPv4Address
         return new IPv4Address($broadcast_ip, $this->mask());
     }
 
+    /**
+     * Get the first usable IP address as an IPv4Address object.
+     *
+     * @return IPv4Address The first usable IP address.
+     */
     public function firstIP(): IPv4Address
     {
         return $this->add(1);
     }
 
+    /**
+     * Get the last usable IP address as an IPv4Address object.
+     *
+     * @return IPv4Address The last usable IP address.
+     */
     public function lastIP(): IPv4Address
     {
         return $this->broadcast()->subtract(1);
     }
 
+    /**
+     * Check if the network contains a given IP address or IPv4Address object.
+     *
+     * @param mixed $ip The IP address or IPv4Address object to check.
+     *
+     * @return bool True if the network contains the provided IP, false otherwise.
+     */
     public function contains($ip): bool
     {
         if (!$ip instanceof IPv4Address) {
@@ -81,6 +139,15 @@ class IPv4Network extends IPv4Address
         return $this->address() == $ip_net->address();
     }
 
+    /**
+     * Calculate the number of subnets that can be created by applying a new subnet mask.
+     *
+     * @param mixed $new_mask The new subnet mask (string or IPv4Mask object).
+     *
+     * @return int The number of subnets that can be created.
+     *
+     * @throws IllegalOperationException If the new mask is invalid or reduces the network size.
+     */
     public function subnetsCount($new_mask): int
     {
         if (!$new_mask instanceof IPv4Mask) {
@@ -100,6 +167,15 @@ class IPv4Network extends IPv4Address
         return $num_subnets;
     }
 
+    /**
+     * Create an array of IPv4Network objects representing subnets with a new subnet mask.
+     *
+     * @param mixed $new_mask The new subnet mask (string or IPv4Mask object).
+     *
+     * @return array An array of IPv4Network objects representing subnets.
+     *
+     * @throws IllegalOperationException If the new mask is invalid or reduces the network size.
+     */
     public function subnets($new_mask): array
     {
         if (!$new_mask instanceof IPv4Mask) {
@@ -119,6 +195,13 @@ class IPv4Network extends IPv4Address
         return $result;
     }
 
+    /**
+     * Calculate the number of classful subnets that can be created from the current network.
+     *
+     * @return int The number of classful subnets that can be created.
+     *
+     * @throws IllegalOperationException If the default mask cannot be applied to the current mask.
+     */
     public function classfulSubnetsCount(): int
     {
         $class = $this->class();
@@ -137,6 +220,13 @@ class IPv4Network extends IPv4Address
         return $num_subnets;
     }
 
+    /**
+     * Create an array of IPv4Network objects representing classful subnets.
+     *
+     * @return array An array of IPv4Network objects representing classful subnets.
+     *
+     * @throws IllegalOperationException If the default mask cannot be applied to the current mask.
+     */
     public function classfulSubnets(): array
     {
         $class = $this->class();
