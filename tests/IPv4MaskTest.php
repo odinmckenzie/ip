@@ -288,6 +288,7 @@ class IPv4MaskTest extends TestCase
     public function testToFormattedBinary()
     {
         $netmask = new IPv4Mask(24);
-        $this->assertEquals('11111111.11111111.11111111. 00000000', $netmask->toFormattedBinary());
+        $this->assertEquals('11111111.11111111.11111111.00000000', $netmask->toFormattedBinary());
+        $this->assertEquals('11111111.11111111.11111111. 00000000', $netmask->toFormattedBinary(' '));
     }
 }

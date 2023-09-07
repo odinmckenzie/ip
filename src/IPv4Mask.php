@@ -97,7 +97,7 @@ class IPv4Mask
         return $binary;
     }
 
-    public function toFormattedBinary(string $gap = ' '): string
+    public function toFormattedBinary(string $gap = null): string
     {
         $fbinary = Address::toFormattedBinary($this, $this, $gap);
 
