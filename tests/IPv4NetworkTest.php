@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Odin\IP\IPv4Address;
 use Odin\IP\IPv4Network;
+use Odin\IP\IPv4Constants;
 use Odin\IP\IllegalOperationException;
 
 class IPv4NetworkTest extends TestCase
@@ -82,10 +83,10 @@ class IPv4NetworkTest extends TestCase
     {
         $expected_network = IPv4Network::from('169.254.0.0/16');
 
-        $linkLocalNetwork = IPv4Network::linkLocalNetwork();
+        $linkLocalNetwork = IPv4Constants::linkLocalNetwork();
         $this->assertEquals($expected_network, $linkLocalNetwork);
 
-        $linkLocalNetwork = IPv4Network::apipaNetwork();
+        $linkLocalNetwork = IPv4Constants::apipaNetwork();
         $this->assertEquals($expected_network, $linkLocalNetwork);
     }
 
@@ -93,7 +94,7 @@ class IPv4NetworkTest extends TestCase
     {
         $expected_network = IPv4Network::from('127.0.0.0/8');
 
-        $loopbackNetwork = IPv4Network::loopbackNetwork();
+        $loopbackNetwork = IPv4Constants::loopbackNetwork();
         $this->assertEquals($expected_network, $loopbackNetwork);
     }
 
@@ -102,7 +103,7 @@ class IPv4NetworkTest extends TestCase
      */
     public function testClassNetwork(string $class, string $expected)
     {
-        $network = IPv4Network::classNetwork($class);
+        $network = IPv4Constants::classNetwork($class);
         $expected_network = IPv4Network::from($expected);
 
         $this->assertEquals($expected_network, $network);
@@ -131,14 +132,14 @@ class IPv4NetworkTest extends TestCase
     public function testInvalidClassNetworkInput()
     {
         $this->expectException(\InvalidArgumentException::class);
-        IPv4Address::classNetwork('F');
+        IPv4Constants::classNetwork('F');
     }
 
     public function testMulticastNetwork()
     {
         $expected_network = IPv4Network::from('224.0.0.0/4');
 
-        $multicastNetwork = IPv4Network::multicastNetwork();
+        $multicastNetwork = IPv4Constants::multicastNetwork();
         $this->assertEquals($expected_network, $multicastNetwork);
     }
 
@@ -146,7 +147,7 @@ class IPv4NetworkTest extends TestCase
     {
         $expected_network = IPv4Network::from('240.0.0.0/4');
 
-        $reservedNetwork = IPv4Network::reservedNetwork();
+        $reservedNetwork = IPv4Constants::reservedNetwork();
         $this->assertEquals($expected_network, $reservedNetwork);
     }
 
@@ -168,7 +169,7 @@ class IPv4NetworkTest extends TestCase
             IPv4Network::from('240.0.0.0/4'),
         ];
 
-        $privateNetworks = IPv4Network::privateNetworks();
+        $privateNetworks = IPv4Constants::privateNetworks();
         $this->assertEquals($expected_network, $privateNetworks);
     }
 
