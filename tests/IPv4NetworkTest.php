@@ -17,6 +17,7 @@ class IPv4NetworkTest extends TestCase
     {
         $net = IPv4Network::from('192.168.1.1/24');
         $this->assertEquals('192.168.1.0', $net->address());
+        $this->assertEquals(24, $net->mask()->prefix());
     }
 
     public function testHostId()

@@ -12,10 +12,19 @@ class IPv4AddressTest extends TestCase
     {
         $ip = new IPv4Address('192.168.1.1');
         $this->assertEquals('192.168.1.1', $ip->address());
+        $this->assertEquals(32, $ip->mask()->prefix());
 
         // has space after address
-        $ip = new IPv4Address('192.168.1.2 ');
+        $ip = new IPv4Address('192.168.1.2 ', 24);
         $this->assertEquals('192.168.1.2', $ip->address());
+        $this->assertEquals(24, $ip->mask()->prefix());
+    }
+
+    public function testFrom()
+    {
+        $ip = IPv4Address::from('192.168.1.2/24 ');
+        $this->assertEquals('192.168.1.2', $ip->address());
+        $this->assertEquals(24, $ip->mask()->prefix());
     }
 
     /**
