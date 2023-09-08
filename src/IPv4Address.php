@@ -231,8 +231,10 @@ class IPv4Address
      *
      * @return string The formatted binary representation.
      */
-    public function toFormattedBinary($netmask, string $gap = null): string
+    public function toFormattedBinary(string $gap = null): string
     {
+        $netmask = $this->mask();
+
         return Address::toFormattedBinary($this, $netmask, $gap);
     }
 

@@ -171,8 +171,8 @@ class IPv4AddressTest extends TestCase
      */
     public function testToFormattedBinary($address, $netmask, $gap, $expected_binary)
     {
-        $ip = new IPv4Address($address);
-        $this->assertEquals($expected_binary, $ip->toFormattedBinary($netmask, $gap));
+        $ip = new IPv4Address($address, $netmask);
+        $this->assertEquals($expected_binary, $ip->toFormattedBinary($gap));
     }
 
     public function toFormattedBinaryProvider()
