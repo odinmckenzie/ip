@@ -69,11 +69,9 @@ class Address
      */
     public static function toFormattedBinary($ip, $netmask, string $gap = null): string
     {
-        if (!isset($gap)) {
-            $gap = '';
-        }
+        $gap = $gap ?? '';
 
-        if ($ip instanceof string) {
+        if (is_string($ip)) {
             $ip = new IPv4Address($ip, $netmask);
             $netmask = $ip->mask();
         }
@@ -85,7 +83,6 @@ class Address
         }
 
         $binary = $ip->toBinary();
-
         $prefix = $mask->prefix();
 
         $binary_with_gap = substr($binary, 0, $prefix) . $gap . substr($binary, $prefix);
@@ -99,13 +96,11 @@ class Address
                 $count = 0;
             }
 
-            $result .= $binary_with_gap[$i];
-
-            if ($binary_with_gap[$i] == ' ') {
-                continue;
-            } else {
+            if ($binary_with_gap[$i] !== ' ') {
                 $count++;
             }
+
+            $result .= $binary_with_gap[$i];
         }
 
         return $result;
