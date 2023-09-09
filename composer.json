@@ -1,8 +1,8 @@
 {
     "name": "odin/ip",
     "version": "1.0.0",
-    "description": "An IPv4/IPv6 manipulation library in PHP.",
-    "keywords": ["ip", "ipv6", "ipv4", "network", "subnet", "subnetting", "cidr", "supernetting", "calculator"],
+    "description": "An IPv4 manipulation library in PHP.",
+    "keywords": ["ip", "ipv4", "network", "subnet", "subnetting", "cidr", "supernetting", "calculator"],
     "type": "library",
     "license": "MIT",
     "authors": [
