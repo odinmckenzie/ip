@@ -12,6 +12,11 @@ class Address
      * @param IPv4Mask|string  $netmask The subnet mask (default is '32' for single address).
      *
      * @return IPv4Address The IPv4Address instance.
+     *
+     * @throws InvalidAddressException If the provided IP address is invalid.
+     * @throws \InvalidArgumentException If the slash notation is invalid.
+     *
+     * @see IPv4Address
      */
     public static function from(string $ip, $netmask = null)
     {
