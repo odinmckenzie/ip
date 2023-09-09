@@ -2,7 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 use Odin\IP\IPv4Address;
-use Odin\IP\IPv4Network;
 use Odin\IP\IPv4Mask;
 use Odin\IP\InvalidAddressException;
 
