@@ -5,6 +5,28 @@ namespace Odin\IP;
 class Network
 {
     /**
+     * Creates an IPv4Network object using either the constructor or from() method of IPv4Network.
+     *
+     * @param string $ip The IPv4 address as a string.
+     * @param IPv4Mask|string  $netmask The network mask (default is '/32' if omitted).
+     *
+     * @return IPv4Network The IPv4Network instance.
+     *
+     * @throws InvalidAddressException If the provided IP address is invalid.
+     * @throws \InvalidArgumentException If the slash notation is invalid.
+     *
+     * @see IPv4Network
+     */
+    public static function from(string $ip, $netmask = null)
+    {
+        if ($netmask === null) {
+            return IPv4Network::from($ip);
+        } else {
+            return new IPv4Network($ip, $netmask);
+        }
+    }
+
+    /**
      * Summarizes an array of IPv4 networks into a single supernet.
      *
      * This method takes an array of IPv4Network objects or valid network
