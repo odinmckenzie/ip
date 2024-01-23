@@ -20,7 +20,7 @@ class IPv4Network extends IPv4Address
      * @param string $ip The IP address in string format.
      * @param mixed $netmask The subnet mask (string or integer) or a prefix length (integer).
      */
-    public function __construct(string $ip, $netmask)
+    public function __construct(string $ip, $netmask = null)
     {
         parent::__construct($ip, $netmask);
 
