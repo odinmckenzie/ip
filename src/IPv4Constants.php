@@ -19,9 +19,9 @@ class IPv4Constants
     public static function classBits(string $class): string
     {
         $classes = [
-            'A' => '0000',
-            'B' => '1000',
-            'C' => '1100',
+            'A' => '0',
+            'B' => '10',
+            'C' => '110',
             'D' => '1110',
             'E' => '1111',
         ];
