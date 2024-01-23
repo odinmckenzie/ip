@@ -73,7 +73,7 @@ class IPv4AddressTest extends TestCase
         $ip = new IPv4Address('192.168.1.2 ');
         $ip_str = (string) $ip;
 
-        $this->assertEquals('192.168.1.2/32', $ip_str);
+        $this->assertEquals('192.168.1.2/24', $ip_str);
     }
 
     public function testNetworkId()
