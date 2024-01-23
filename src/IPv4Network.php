@@ -205,7 +205,7 @@ class IPv4Network extends IPv4Address
     public function classfulSubnetsCount(): int
     {
         $class = $this->class();
-        $class_mask = IPv4Mask::fromClassDefault($class);
+        $class_mask = IPv4Mask::fromClass($class);
 
         $class_prefix = $class_mask->prefix();
         $current_prefix = $this->netmask->prefix();
@@ -230,7 +230,7 @@ class IPv4Network extends IPv4Address
     public function classfulSubnets(): array
     {
         $class = $this->class();
-        $class_mask = IPv4Mask::fromClassDefault($class);
+        $class_mask = IPv4Mask::fromClass($class);
         $current_net = $this->address();
 
         $class_net = new IPv4Network($current_net, $class_mask);

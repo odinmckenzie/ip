@@ -191,7 +191,7 @@ class IPv4Mask
      *
      * @throws InvalidArgumentException If an invalid IP class is provided.
      */
-    public static function fromClassDefault(string $class): IPv4Mask
+    public static function fromClass(string $class): IPv4Mask
     {
         $accepted_classes = ['A', 'B', 'C'];
         $class = strtoupper($class);

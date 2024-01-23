@@ -247,26 +247,26 @@ class IPv4MaskTest extends TestCase
         $this->assertEquals('24', $mask_str);
     }
 
-    public function testFromClassDefault()
+    public function testFromClass()
     {
-        $a = IPv4Mask::fromClassDefault('A');
+        $a = IPv4Mask::fromClass('A');
         $this->assertEquals(new IPv4Mask(8), $a);
 
-        $b = IPv4Mask::fromClassDefault('B');
+        $b = IPv4Mask::fromClass('B');
         $this->assertEquals(new IPv4Mask(16), $b);
 
-        $c = IPv4Mask::fromClassDefault('C');
+        $c = IPv4Mask::fromClass('C');
         $this->assertEquals(new IPv4Mask(24), $c);
     }
 
     /**
      * @dataProvider invalidClassProvider
      */
-    public function testInvalidFromClassDefaultInput($class, $expected_message)
+    public function testInvalidFromClassInput($class, $expected_message)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($expected_message);
-        IPv4Mask::fromClassDefault($class);
+        IPv4Mask::fromClass($class);
     }
 
     public function invalidClassProvider()
