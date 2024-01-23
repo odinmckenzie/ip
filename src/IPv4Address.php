@@ -37,7 +37,7 @@ class IPv4Address
      *
      * @throws InvalidAddressException If the provided IP address is invalid.
      */
-    public function __construct(string $ip, $netmask = '32')
+    public function __construct(string $ip, $netmask = null)
     {
         $ip = trim($ip);
 
@@ -52,8 +52,15 @@ class IPv4Address
 
         if ($netmask instanceof IPv4Mask) {
             $this->netmask = $netmask;
-        } else {
+        } elseif (isset($netmask)) {
             $this->netmask = new IPv4Mask($netmask);
+        } else {
+            try {
+                $class = $this->class();
+                $this->netmask = IPv4Mask::fromClass($class);
+            } catch (\InvalidArgumentException $e) {
+                $this->netmask = new IPv4Mask(32);
+            }
         }
     }
 
@@ -257,10 +264,12 @@ class IPv4Address
         $first_octet = intval(explode('.', $ip)[0]);
         $first_octet_bin = decbin($first_octet);
         $first_octet_bin = str_pad($first_octet_bin, 8, "0", STR_PAD_LEFT);
-        $first_4_bits = substr($first_octet_bin, 0, 4);
 
         foreach ($classes as $class) {
-            if($first_4_bits === IPv4Constants::classBits($class)) {
+            $class_bits = IPv4Constants::classBits($class);
+            $ip_class_bits = substr($first_octet_bin, 0, strlen($class_bits));
+
+            if($class_bits === $ip_class_bits) {
                 return $class;
             }
         }
