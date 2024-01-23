@@ -7,16 +7,35 @@ use Odin\IP\InvalidAddressException;
 
 class IPv4AddressTest extends TestCase
 {
-    public function testSimpleObjCreate()
+    /**
+     * @dataProvider simpleObjCreateProvider
+     * @return void
+     */
+    public function testSimpleObjCreate($ip_input, $prefix)
     {
-        $ip = new IPv4Address('192.168.1.1');
-        $this->assertEquals('192.168.1.1', $ip->address());
-        $this->assertEquals(32, $ip->mask()->prefix());
+        $ip = new IPv4Address($ip_input);
+        $this->assertEquals($ip_input, $ip->address());
+        $this->assertEquals($prefix, $ip->mask()->prefix());
+
+        $ip = new IPv4Address($ip_input, $prefix);
+        $this->assertEquals($ip_input, $ip->address());
+        $this->assertEquals($prefix, $ip->mask()->prefix());
 
         // has space after address
-        $ip = new IPv4Address('192.168.1.2 ', 24);
-        $this->assertEquals('192.168.1.2', $ip->address());
-        $this->assertEquals(24, $ip->mask()->prefix());
+        $ip = new IPv4Address($ip_input . ' ', $prefix);
+        $this->assertEquals($ip_input, $ip->address());
+        $this->assertEquals($prefix, $ip->mask()->prefix());
+    }
+
+    public function simpleObjCreateProvider()
+    {
+        return [
+            ['10.1.1.1', 8],
+            ['172.16.1.1', 16],
+            ['192.168.1.1', 24],
+            ['224.1.1.1', 32],
+            ['250.1.1.1', 32],
+        ];
     }
 
     public function testFrom()
