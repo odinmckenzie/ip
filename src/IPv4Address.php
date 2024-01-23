@@ -15,6 +15,11 @@ class InvalidAddressException extends \Exception
 class IPv4Address
 {
     /**
+     * @var string The IPv4 address in dotted decimal format.
+     */
+    protected $ip_str;
+
+    /**
      * @var int The IPv4 address in long format.
      */
     protected $ip_long;
@@ -37,6 +42,7 @@ class IPv4Address
         $ip = trim($ip);
 
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            $this->ip_str = $ip;
             $this->ip_long = ip2long($ip);
         } elseif (strpos($ip, '/') !== false) {
             throw new InvalidAddressException("Unexpected '/' found in '$ip'. Use the from() static method instead.");
@@ -76,7 +82,7 @@ class IPv4Address
      */
     public function address(): string
     {
-        return long2ip($this->ip_long);
+        return $this->ip_str;
     }
 
     /**
