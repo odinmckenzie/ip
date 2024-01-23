@@ -12,6 +12,10 @@ class IPv4NetworkTest extends TestCase
     {
         $net = new IPv4Network('192.168.1.1', 24);
         $this->assertEquals('192.168.1.0', $net->address());
+
+        $net = new IPv4Network('192.168.1.1');
+        $this->assertEquals('192.168.1.0', $net->address());
+        $this->assertEquals(24, $net->mask()->prefix());
     }
 
     public function testFrom()
