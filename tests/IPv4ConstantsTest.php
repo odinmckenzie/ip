@@ -62,7 +62,41 @@ class IPv4ConstantsTest extends TestCase
     public function testInvalidClassBitsInput()
     {
         $this->expectException(InvalidArgumentException::class);
-        MyClass::classBits('F');
+        IPv4Constants::classBits('F');
+    }
+
+    /**
+     * @dataProvider validClassPrefixProvider
+     */
+    public function testClassPrefix($class, $expected)
+    {
+        $this->assertEquals($expected, IPv4Constants::classPrefix($class));
+    }
+
+    /**
+     * Data provider for testClassPrefix.
+     */
+    public function validClassPrefixProvider()
+    {
+        return [
+            ['A', '0000'],
+            ['a', '0000'],
+
+            ['B', '1000'],
+            ['b', '1000'],
+
+            ['C', '1100'],
+            ['c', '1100'],
+        ];
+    }
+
+    /**
+     * Test invalid IP classes input for classPrefix().
+     */
+    public function testInvalidClassPrefixInput()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        IPv4Constants::classPrefix('D');
     }
 
     /**
