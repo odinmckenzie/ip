@@ -249,14 +249,17 @@ class IPv4Address
      *
      * @return string The class of the IPv4 address.
      */
-    public function class (): string
+    public function class(): string
     {
         $classes = ['A', 'B', 'C', 'D', 'E'];
 
-        $this_ip = $this->address();
+        $ip = $this->address();
+        $first_octet = intval(explode('.', $ip)[0]);
+        $first_octet_bin = decbin($first_octet);
+        $first_octet_bin = str_pad($first_octet_bin, 8, "0", STR_PAD_LEFT);
 
         foreach ($classes as $class) {
-            if (IPv4Constants::classNetwork($class)->contains($this_ip)) {
+            if(substr($first_octet_bin, 0, 4) === IPv4Constants::classBits($class)) {
                 return $class;
             }
         }
