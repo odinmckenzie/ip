@@ -257,9 +257,10 @@ class IPv4Address
         $first_octet = intval(explode('.', $ip)[0]);
         $first_octet_bin = decbin($first_octet);
         $first_octet_bin = str_pad($first_octet_bin, 8, "0", STR_PAD_LEFT);
+        $first_4_bits = substr($first_octet_bin, 0, 4);
 
         foreach ($classes as $class) {
-            if(substr($first_octet_bin, 0, 4) === IPv4Constants::classBits($class)) {
+            if($first_4_bits === IPv4Constants::classBits($class)) {
                 return $class;
             }
         }
