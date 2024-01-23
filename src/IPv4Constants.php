@@ -36,6 +36,32 @@ class IPv4Constants
     }
 
     /**
+     * Get the prefix corresponding to a specified IPv4 address class.
+     *
+     * @param string $class The IP address class ('A', 'B' or 'C').
+     *
+     * @return string The prefix corresponding to a specified IPv4 address class.
+     *
+     * @throws InvalidArgumentException If an invalid IPv4 address class is provided.
+     */
+    public static function classPrefix(string $class): int
+    {
+        $classes = [
+            'A' => 8,
+            'B' => 16,
+            'C' => 24,
+        ];
+
+        $class = strtoupper($class);
+
+        if (!array_key_exists($class, $classes)) {
+            throw new \InvalidArgumentException("Invalid class: '$class' must be either 'A', 'B' or 'C'.");
+        }
+
+        return $classes[$class];
+    }
+
+    /**
      * Get the IPv4 network object corresponding to a specified IPv4 address class.
      *
      * @param string $class The IP address class ('A', 'B', 'C', 'D', or 'E').
