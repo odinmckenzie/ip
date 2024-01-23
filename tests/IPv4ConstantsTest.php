@@ -39,14 +39,14 @@ class IPv4ConstantsTest extends TestCase
     public function validClassBitsProvider()
     {
         return [
-            ['A', '0000'],
-            ['a', '0000'],
+            ['A', '0'],
+            ['a', '0'],
 
-            ['B', '1000'],
-            ['b', '1000'],
+            ['B', '10'],
+            ['b', '10'],
 
-            ['C', '1100'],
-            ['c', '1100'],
+            ['C', '110'],
+            ['c', '110'],
 
             ['D', '1110'],
             ['d', '1110'],
@@ -79,14 +79,14 @@ class IPv4ConstantsTest extends TestCase
     public function validClassPrefixProvider()
     {
         return [
-            ['A', '0000'],
-            ['a', '0000'],
+            ['A', 8],
+            ['a', 8],
 
-            ['B', '1000'],
-            ['b', '1000'],
+            ['B', 16],
+            ['b', 16],
 
-            ['C', '1100'],
-            ['c', '1100'],
+            ['C', 24],
+            ['c', 24],
         ];
     }
 
