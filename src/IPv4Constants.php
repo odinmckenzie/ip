@@ -73,11 +73,11 @@ class IPv4Constants
     public static function classNetwork(string $class): IPv4Network
     {
         $classes = [
-            'A' => IPv4Network::from('0.0.0.0/1'),
-            'B' => IPv4Network::from('128.0.0.0/2'),
-            'C' => IPv4Network::from('192.0.0.0/3'),
-            'D' => IPv4Network::from('224.0.0.0/4'),
-            'E' => IPv4Network::from('240.0.0.0/4'),
+            'A' => '0.0.0.0/1',
+            'B' => '128.0.0.0/2',
+            'C' => '192.0.0.0/3',
+            'D' => '224.0.0.0/4',
+            'E' => '240.0.0.0/4',
         ];
 
         $class = strtoupper($class);
@@ -86,7 +86,9 @@ class IPv4Constants
             throw new \InvalidArgumentException("Invalid class: '$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
         }
 
-        return $classes[$class];
+        $classNetwork = $classes[$class];
+
+        return IPv4Network::from($classNetwork);
     }
 
     /**
