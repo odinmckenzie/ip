@@ -28,6 +28,7 @@ class IPv4Network extends IPv4Address
         $network_id_long = $this->ip_long& $subnet_mask_long;
 
         $this->ip_long = $network_id_long;
+        $this->ip_str = long2ip($network_id_long);
     }
 
     /**
