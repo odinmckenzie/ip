@@ -8,7 +8,35 @@ namespace Odin\IP;
 class IPv4Constants
 {
     /**
-     * Get the IPv4 network object corresponding to a specified IP address class.
+     * Get the first four(4) bits corresponding to a specified IPv4 address class.
+     *
+     * @param string $class The IP address class ('A', 'B', 'C', 'D', or 'E').
+     *
+     * @return string The first four(4) bits corresponding to a specified IPv4 address class.
+     *
+     * @throws InvalidArgumentException If an invalid IPv4 address class is provided.
+     */
+    public static function classBits(string $class): string
+    {
+        $classes = [
+            'A' => '0000',
+            'B' => '1000',
+            'C' => '1100',
+            'D' => '1110',
+            'E' => '1111',
+        ];
+
+        $class = strtoupper($class);
+
+        if (!array_key_exists($class, $classes)) {
+            throw new \InvalidArgumentException("Invalid class: '$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
+        }
+
+        return $classes[$class];
+    }
+
+    /**
+     * Get the IPv4 network object corresponding to a specified IPv4 address class.
      *
      * @param string $class The IP address class ('A', 'B', 'C', 'D', or 'E').
      *
@@ -29,7 +57,7 @@ class IPv4Constants
         $class = strtoupper($class);
 
         if (!array_key_exists($class, $classes)) {
-            throw new \InvalidArgumentException("'$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
+            throw new \InvalidArgumentException("Invalid class: '$class' must be either 'A', 'B', 'C', 'D' or 'E'.");
         }
 
         return $classes[$class];
