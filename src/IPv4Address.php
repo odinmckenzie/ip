@@ -109,11 +109,7 @@ class IPv4Address
      */
     public function network(): IPv4Network
     {
-        $subnet_mask_long = ip2long($this->mask()->subnetMask());
-        $net_id_long = $this->ip_long& $subnet_mask_long;
-        $net_id = long2ip($net_id_long);
-
-        return new IPv4Network($net_id, $this->mask());
+        return new IPv4Network($this->address(), $this->mask());
     }
 
     /**
