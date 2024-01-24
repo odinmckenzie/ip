@@ -32,18 +32,19 @@ class IPv4Network extends IPv4Address
     }
 
     /**
-     * Create an IPv4Network object from an IP address in slash notation.
+     * Create an IPv4Network instance from a string eg. "192.168.1.0/24".
+     * If the network prefix is omitted the default prefix based on class
+     * will be used.
      *
-     * @param string $ip The IP address in slash notation (e.g., "192.168.1.0/24").
+     * @param string $ip The IP address in slash notation (e.g., "192.168.1.0/24"),
+     * "192.168.1.1/255.255.255.0" or "192.168.1.1/0.0.0.255".
      *
      * @return IPv4Network An IPv4Network object created from the slash notation.
-     *
-     * @throws InvalidArgumentException If the slash notation is invalid.
      */
     public static function from(string $ip)
     {
         if (strpos($ip, '/') === false) {
-            throw new \InvalidArgumentException("'$ip' must use the slash notation to specify the netmask.");
+            return new self($ip);
         } else {
             list($ip_str, $netmask) = explode('/', $ip);
 

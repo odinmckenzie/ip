@@ -65,9 +65,12 @@ class IPv4Address
     }
 
     /**
-     * Creates an IPv4Address instance from a string.
-     *
-     * @param string $ip The IPv4 address as a string.
+     * Create an IPv4Address instance from a string eg. "192.168.1.1/24".
+     * If the network prefix is omitted the default prefix based on class
+     * will be used.
+     * 
+     * @param string $ip The IPv4 address as a string eg. "192.168.1.1/24",
+     * "192.168.1.1/255.255.255.0" or "192.168.1.1/0.0.0.255".
      *
      * @return IPv4Address The IPv4Address instance.
      */
