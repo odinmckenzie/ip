@@ -22,6 +22,10 @@
         "php": ">=7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "<9.7"
+    },
+    "extra": {
+        "_comment1": "phpunit 10.0-10.1 work with php >= 8.2 but in the cli there are deprecation messages",
+        "_comment2": "phpunit >= 10.2 does not work with php >= 8.2"
     }
 }
