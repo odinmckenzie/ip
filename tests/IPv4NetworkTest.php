@@ -139,6 +139,12 @@ class IPv4NetworkTest extends TestCase
         IPv4Constants::classNetwork('F');
     }
 
+    public function testIsUnspecifiedAddress()
+    {
+        $ip = new IPv4Network('0.0.0.0', 0);
+        $this->assertTrue($ip->isUnspecified());
+    }
+
     public function testMulticastNetwork()
     {
         $expected_network = IPv4Network::from('224.0.0.0/4');

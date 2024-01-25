@@ -55,11 +55,15 @@ class IPv4Address
         } elseif (isset($netmask)) {
             $this->netmask = new IPv4Mask($netmask);
         } else {
-            try {
-                $class = $this->class();
-                $this->netmask = IPv4Mask::fromClass($class);
-            } catch (\InvalidArgumentException $e) {
-                $this->netmask = new IPv4Mask(32);
+            if ($this->ip_str === '0.0.0.0') {
+                $this->netmask = new IPv4Mask(0);
+            } else {
+                try {
+                    $class = $this->class();
+                    $this->netmask = IPv4Mask::fromClass($class);
+                } catch (\InvalidArgumentException $e) {
+                    $this->netmask = new IPv4Mask(32);
+                }
             }
         }
     }
